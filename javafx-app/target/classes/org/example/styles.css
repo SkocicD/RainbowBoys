@@ -1,0 +1,33 @@
+/* General styling for unselected (default) RadioButton */
+.toggle-button {
+    -fx-background-color: #518ff5; /* Dark blue color for unselected state */
+    -fx-background-radius: 0; /* Makes the button rectangular */
+    -fx-text-fill: white; /* Sets text color to white */
+    -fx-text-alignment: center; /* Sets text color to white */
+    -fx-alignment: center;
+    -fx-padding: 5 10; /* Adds some padding around text */
+    /*-fx-border-color: #bbd4fc;*/
+}
+
+/* Styling for selected RadioButton */
+.toggle-button:selected {
+    -fx-background-color: #bbd4fc; /* Lighter dark blue when selected */
+    -fx-background-radius: 0;
+    -fx-border-color: transparent;
+}
+
+
+/* Background color for the BorderPane */
+.border-pane {
+    -fx-background-color: #bbd4fc; /* Dark blue color */
+}
+
+/* Background color for the HBox */
+/*.radio-button-hbox {*/
+/*    -fx-background-color: black; /* Lighter dark blue color */
+/*    -fx-pref-width: 100%;  /* Ensures the HBox spans the full width */
+/*}*/
+
+/*.radio-button-hbox > .header-button {
+    -fx-pref-width: 5000%;
+}*/

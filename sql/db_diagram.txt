@@ -1,0 +1,39 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table gymnasts {
+  gymnast_id integer [primary key]
+  last_name String
+  first_name String
+  birthdate datatime
+  class_id integer
+  floor_progress datetime[]
+  pommel_progress datetime[]
+  rings_progress datetime[]
+  vault_progress datetime[]
+  pbar_progress datetime[]
+  hbar_progress datetime[]
+}
+
+Table coaches {
+  coach_id integer [primary key]
+  first_name String
+  last_name varchar
+}
+
+Table classes {
+  class_id integer [primary key]
+  name String
+  time timestamp
+}
+
+Table class_coaches{
+  class_id integer
+  coach_id integer
+}
+
+Ref: class_coaches.coach_id > coaches.coach_id // many-to-one
+Ref: class_coaches.class_id > classes.class_id // many-to-one
+
+Ref: gymnasts.class_id < classes.class_id
+

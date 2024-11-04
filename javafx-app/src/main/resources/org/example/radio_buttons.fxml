@@ -1,0 +1,11 @@
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/22"
+      xmlns:fx="http://javafx.com/fxml/1"
+      spacing="10" styleClass="vbox">
+    <RadioButton text="Option 1" />
+    <RadioButton text="Option 2" />
+    <RadioButton text="Option 3" />
+</VBox>
+

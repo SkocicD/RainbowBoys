@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1">
+
+    <!-- Top part with three radio buttons inside an HBox -->
+    <top>
+        <HBox spacing="0" alignment="LEFT" BorderPane.alignment="TOP_LEFT">
+            <RadioButton text="Search" minWidth="150" maxWidth = "150"/>
+            <RadioButton text="Add Gymnast" minWidth="150" maxWidth = "150"/>
+            <RadioButton text="Add Class" minWidth="150" maxWidth = "150"/>
+            <!-- Optional: Padding around the buttons -->
+            <padding>
+                <Insets top="0" right="1" bottom="0" left="1"/>
+            </padding>
+        </HBox>
+    </top>
+
+    <!-- center part of the borderpane (can add content here later) -->
+    <center>
+        <!-- You can add more content here if needed -->
+    </center>
+
+</BorderPane>

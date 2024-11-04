@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefWidth="1200" prefHeight="800"
+            styleClass="border-pane"
+            fx:controller="org.example.Controller">
+
+    <top>
+        <HBox spacing="0" styleClass="radio-button-hbox" fx:id="topBox" alignment="CENTER" BorderPane.alignment="CENTER" prefWidth="Infinity">
+            <children>
+                <ToggleButton text="Gymnasts" prefHeight="40" fx:id="gymnastHeaderButton" onAction="#showGymnastsTab" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                <ToggleButton text="Classes" prefHeight="40" fx:id="classHeaderButton" onAction="#showClassesTab" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+                <ToggleButton text="Coaches" prefHeight="40" fx:id="coachHeaderButton" onAction="#showCoachesTab" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+            </children>
+        </HBox>
+    </top>
+    <center>
+        <StackPane fx:id="screenContainer"/>
+    </center>
+    <bottom>
+        <ToggleButton text="hello"/>
+    </bottom>
+
+</BorderPane>
