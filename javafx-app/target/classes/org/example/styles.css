@@ -13,20 +13,23 @@
 .toggle-button:selected {
     -fx-background-color: #bbd4fc; /* Lighter dark blue when selected */
     -fx-background-radius: 0;
+    -fx-text-fill: black; /* Sets text color to white */
     -fx-border-color: transparent;
+    -fx-background-radius: 10 10 0 0;
 }
 
 
 /* Background color for the BorderPane */
 .border-pane {
-    -fx-background-color: #bbd4fc; /* Dark blue color */
+    -fx-background-color: #bbd4fc;
 }
 
 /* Background color for the HBox */
-/*.radio-button-hbox {*/
-/*    -fx-background-color: black; /* Lighter dark blue color */
-/*    -fx-pref-width: 100%;  /* Ensures the HBox spans the full width */
-/*}*/
+.radio-button-hbox {
+    -fx-background-color: #518ff5;
+    -fx-pref-width: infinity; 
+    -fx-spacing: 0;
+}
 
 /*.radio-button-hbox > .header-button {
     -fx-pref-width: 5000%;

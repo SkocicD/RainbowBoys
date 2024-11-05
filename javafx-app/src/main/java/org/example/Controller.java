@@ -30,7 +30,7 @@ public class Controller implements Initializable{
     public HBox topBox;
     private HashMap<String, Node> screens;
 
-    private Node gymnastScreen;
+    private Parent gymnastScreen;
     private Node coachScreen;
     private Node classScreen;
 
@@ -48,6 +48,7 @@ public class Controller implements Initializable{
 
         try{
             gymnastScreen = FXMLLoader.load(getClass().getResource("gymnast_screen.fxml"));
+            gymnastScreen.getStylesheets().add(getClass().getResource("/org/example/gymnast_screen_styles.css").toExternalForm());
             coachScreen = FXMLLoader.load(getClass().getResource("coach_screen.fxml"));
             classScreen = FXMLLoader.load(getClass().getResource("class_screen.fxml"));
             screens.put("gymnast", gymnastScreen);

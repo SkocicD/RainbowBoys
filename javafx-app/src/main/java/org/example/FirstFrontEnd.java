@@ -21,7 +21,7 @@ public class FirstFrontEnd extends Application {
 
         scene.getStylesheets().add(getClass().getResource("/org/example/styles.css").toExternalForm());
 
-        primaryStage.setTitle("Rectangular Radio Buttons");
+        primaryStage.setTitle("Rainbow Boys");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
