@@ -14,10 +14,10 @@
             xmlns:fx="http://javafx.com/fxml"
             prefWidth="1200" prefHeight="800"
             styleClass="border-pane"
-            fx:controller="org.example.Controller">
+            fx:controller="org.example.MainController">
 
     <top>
-        <HBox styleClass="radio-button-hbox" fx:id="topBox" >
+        <HBox styleClass="header-hbox" fx:id="headerBox" >
             <children>
                 <ToggleButton text="Gymnasts" prefHeight="40" fx:id="gymnastHeaderButton" onAction="#showGymnastsTab" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
                 <ToggleButton text="Classes" prefHeight="40" fx:id="classHeaderButton" onAction="#showClassesTab" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>

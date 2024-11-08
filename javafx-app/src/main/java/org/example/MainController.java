@@ -15,7 +15,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.beans.value.*;
 
-public class Controller implements Initializable{
+public class MainController implements Initializable{
 
     @FXML
     public ToggleButton gymnastHeaderButton;
@@ -27,12 +27,12 @@ public class Controller implements Initializable{
     @FXML
     private StackPane screenContainer;
     @FXML
-    public HBox topBox;
+    public HBox headerBox;
     private HashMap<String, Node> screens;
 
     private Parent gymnastScreen;
-    private Node coachScreen;
-    private Node classScreen;
+    private Parent coachScreen;
+    private Parent classScreen;
 
 
     public void initialize(URL location, ResourceBundle resources){
@@ -42,7 +42,6 @@ public class Controller implements Initializable{
         coachHeaderButton.setToggleGroup(headerToggle);
 
         gymnastHeaderButton.setSelected(true);
-       
 
         screens = new HashMap<>();
 
@@ -50,7 +49,9 @@ public class Controller implements Initializable{
             gymnastScreen = FXMLLoader.load(getClass().getResource("gymnast_screen.fxml"));
             gymnastScreen.getStylesheets().add(getClass().getResource("/org/example/gymnast_screen_styles.css").toExternalForm());
             coachScreen = FXMLLoader.load(getClass().getResource("coach_screen.fxml"));
+            coachScreen.getStylesheets().add(getClass().getResource("/org/example/coach_screen_styles.css").toExternalForm());
             classScreen = FXMLLoader.load(getClass().getResource("class_screen.fxml"));
+            classScreen.getStylesheets().add(getClass().getResource("/org/example/class_screen_styles.css").toExternalForm());
             screens.put("gymnast", gymnastScreen);
             screens.put("coach", coachScreen);
             screens.put("class", classScreen);
@@ -71,7 +72,7 @@ public class Controller implements Initializable{
         }
     
     public HBox getTopBox(){
-        return topBox;
+        return headerBox;
     }
     
     @FXML

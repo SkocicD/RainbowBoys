@@ -9,17 +9,17 @@ import javafx.stage.Stage;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 
-public class FirstFrontEnd extends Application {
+public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/main_front_end.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/main.fxml"));
         Parent root = loader.load();
-        Controller cont = loader.getController();
+        MainController cont = loader.getController();
         Scene scene = new Scene(root);
         ToggleGroup headerToggleGroup = new ToggleGroup();
 
-        scene.getStylesheets().add(getClass().getResource("/org/example/styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/org/example/main_styles.css").toExternalForm());
 
         primaryStage.setTitle("Rainbow Boys");
         primaryStage.setScene(scene);

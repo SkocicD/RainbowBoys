@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<!--<?import javafx.scene.control.ComboBox?>-->
 
-<StackPane xmlns:fx="http://javafx.com/fxml/1">
-    <Label text="This is the Class Screen" layoutX="50" layoutY="50"/>
-</StackPane>
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+    fx:id="center"
+    fx:controller="org.example.GymnastScreenController">
+    <HBox styleClass="top-hbox" fx:id="topHBox">
+        <TextField/>
+        <TextField/>
+        <ComboBox prefWidth="150"/>
+    </HBox>
+    <HBox styleClass="middle-hbox" fx:id="middleHBox">
+        <TableView fx:id="gymnastTable"/>
+    </HBox>
+    <HBox styleClass="bottom-hbox" fx:id="bottomHBox">
+        <Button text="Add a New Class"/>
+    </HBox>
+</VBox>
