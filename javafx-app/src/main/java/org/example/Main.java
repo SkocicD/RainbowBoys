@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 
+//import org.objects.Coach2;
+
 public class Main extends Application {
 
     @Override
@@ -27,6 +29,9 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
+
+        //Coach2 coach = new Coach2("David");
+        //System.exit(0);
         launch(args);
     }
 }

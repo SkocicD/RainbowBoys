@@ -1,6 +1,10 @@
 org/example/Main.class
 org/example/MainController$1.class
+DatabaseConnector.class
+Coach.class
+DayTime.class
 org/example/CoachScreenController.class
 org/example/MainController.class
 org/example/GymnastScreenController.class
 org/example/ClassScreenController.class
+Class.class

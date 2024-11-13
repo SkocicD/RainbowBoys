@@ -8,14 +8,14 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml/1"
     fx:id="center"
-    fx:controller="org.example.GymnastScreenController">
+    fx:controller="org.example.ClassScreenController">
     <HBox styleClass="top-hbox" fx:id="topHBox">
         <TextField/>
         <TextField/>
         <ComboBox prefWidth="150"/>
     </HBox>
     <HBox styleClass="middle-hbox" fx:id="middleHBox">
-        <TableView fx:id="gymnastTable"/>
+        <TableView fx:id="classTable"/>
     </HBox>
     <HBox styleClass="bottom-hbox" fx:id="bottomHBox">
         <Button text="Add a New Class"/>

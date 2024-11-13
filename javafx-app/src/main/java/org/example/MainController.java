@@ -14,8 +14,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.beans.value.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class MainController implements Initializable{
+    
+    private static final String URL = "jdbc:postgresql://localhost:5432/rainbow_boys";
+    public static final String USER = "davidskocic";
+    private static final String PASSWORD = "Me$merize";
 
     @FXML
     public ToggleButton gymnastHeaderButton;
@@ -41,6 +48,7 @@ public class MainController implements Initializable{
         classHeaderButton.setToggleGroup(headerToggle);
         coachHeaderButton.setToggleGroup(headerToggle);
 
+        System.out.println("here");
         gymnastHeaderButton.setSelected(true);
 
         screens = new HashMap<>();
@@ -100,5 +108,4 @@ public class MainController implements Initializable{
     private void loadScreen(String screen){
         screenContainer.getChildren().setAll(screens.get(screen));
     }
-
 }
