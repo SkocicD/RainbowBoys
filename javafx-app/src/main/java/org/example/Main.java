@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 
-//import org.objects.Coach2;
+import org.objects.Coach;
 
 public class Main extends Application {
 
@@ -30,8 +30,8 @@ public class Main extends Application {
 
     public static void main(String[] args) {
 
-        //Coach2 coach = new Coach2("David");
-        //System.exit(0);
+        Coach coach = new Coach(60);
+        System.exit(0);
         launch(args);
     }
 }

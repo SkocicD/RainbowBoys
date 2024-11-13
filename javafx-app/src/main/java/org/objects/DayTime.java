@@ -1,3 +1,5 @@
+package org.objects;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
