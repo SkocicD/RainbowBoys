@@ -7,6 +7,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.collections.ObservableList;
 
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
@@ -28,16 +29,24 @@ public class GymnastScreenController implements Initializable{
     @FXML public HBox middleHBox;
     @FXML public TableView gymnastTable;
     @FXML public TextField nameField;
+    @FXML public ComboBox classField;
     @FXML public TableColumn<Gymnast, String> firstNameColumn;
     @FXML public TableColumn<Gymnast, String> lastNameColumn;
     @FXML public TableColumn<Gymnast, String> classNameColumn;
 
     private final StringProperty nameFieldText = new SimpleStringProperty();
+    private final StringProperty classFieldText = new SimpleStringProperty();
 
     public void initialize(URL location, ResourceBundle resources){
         topHBox.spacingProperty().bind(center.widthProperty().multiply(.1));
         gymnastTable.prefWidthProperty().bind(center.widthProperty().multiply(.8));
         nameFieldText.bindBidirectional(nameField.textProperty());
+        ObservableList<String> comboBoxOptions = FXCollections.observableArrayList(
+            "class 1",
+            "class 2"
+        );
+        classFieldText.bindBidirectional(classField.valueProperty());
+        classField.setItems(comboBoxOptions);
 
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -47,6 +56,9 @@ public class GymnastScreenController implements Initializable{
     }
 
     public void searchDB(){
+        String cname = classFieldText.get();
+        if (cname == null)
+            cname = "";
         String name[] = nameFieldText.get().split(" ");
         String fname = "";
         String lname = "";
@@ -60,7 +72,7 @@ public class GymnastScreenController implements Initializable{
             lname = name[1];
         }
             
-        ArrayList<Gymnast> gs = Gymnast.getGymnastsByName(fname,lname);
+        ArrayList<Gymnast> gs = Gymnast.getGymnastsByName(fname,lname, cname);
         gymnastTable.getItems().clear();
         for (Gymnast g:gs)
             //System.out.println(g.getFirstName();

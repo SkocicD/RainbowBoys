@@ -39,14 +39,15 @@ $$;
 
 
 DROP FUNCTION get_gymnasts_by_name;
-CREATE FUNCTION get_gymnasts_by_name(fname TEXT, lname TEXT)
+CREATE FUNCTION get_gymnasts_by_name(fname TEXT, lname TEXT, cname TEXT)
 RETURNS TABLE (gymnast_id INT, first_name VARCHAR(40), last_name VARCHAR(40), class_id INT, class_name VARCHAR(60))
 LANGUAGE plpgsql
 AS $$
 BEGIN
     RETURN QUERY SELECT g.gymnast_id, g.first_name, g.last_name, g.class_id, c.class_name FROM gymnasts g JOIN classes c ON g.class_id = c.class_id
-    WHERE g.first_name ILIKE '%' || fname || '%'
-	OR g.last_name ILIKE '%' || lname || '%';
+    WHERE (g.first_name ILIKE '%' || fname || '%'
+	OR g.last_name ILIKE '%' || lname || '%')
+	AND c.class_name ILIKE '%' || cname || '%';
 END;
 $$;
 

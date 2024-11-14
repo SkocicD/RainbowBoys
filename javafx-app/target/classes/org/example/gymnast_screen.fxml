@@ -11,7 +11,7 @@
     fx:controller="org.example.GymnastScreenController">
     <HBox styleClass="top-hbox" fx:id="topHBox">
         <TextField fx:id="nameField" onAction="#searchDB" promptText="gymnast name"/>
-        <ComboBox prefWidth="150" promptText="gymnast class"/>
+        <ComboBox fx:id="classField" prefWidth="150" promptText="gymnast class"/>
     </HBox>
     <HBox styleClass="middle-hbox" fx:id="middleHBox">
         <TableView fx:id="gymnastTable">

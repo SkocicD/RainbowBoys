@@ -65,11 +65,12 @@ public class Gymnast {
 			return false;
 		}
     }
-	public static ArrayList<Gymnast> getGymnastsByName(String firstName, String lastName){
+	public static ArrayList<Gymnast> getGymnastsByName(String firstName, String lastName, String cname){
 		try (Connection con = DatabaseConnector.connect()){
-			try (PreparedStatement call = con.prepareStatement("SELECT * FROM get_gymnast_by_name(?, ?)")){
+			try (PreparedStatement call = con.prepareStatement("SELECT * FROM get_gymnasts_by_name(?, ?, ?)")){
 				call.setString(1, firstName);
 				call.setString(2, lastName);
+				call.setString(3, cname);
 				try(ResultSet results = call.executeQuery()){
 					ArrayList<Gymnast> resultList = new ArrayList<>();
 					int count = 0;
