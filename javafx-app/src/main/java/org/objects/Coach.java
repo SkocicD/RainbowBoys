@@ -30,23 +30,49 @@ public class Coach{
 	}
 
 	public boolean pullById(){
-		try (Connection con = DatabaseConnector.connect()) {
-			PreparedStatement call = con.prepareStatement("SELECT * FROM get_coach(?)");
-			call.setLong(1, this.id);
-			ResultSet results = call.executeQuery();
+		// "try with resources" to automatically close connections
+		try (Connection con = DatabaseConnector.connect()){
+			try (PreparedStatement call = con.prepareStatement("SELECT * FROM get_coach(?)"))){
+				call.setInt(1, this.id);
+				// "try with resources" to automatically close connections
+				try(ResultSet results = call.executeQuery()){
+					int count = 0;
+					String name = "";
+					while (results.next()){
+						name = results.getString("first_name") + " " + results.getString("last_name");
+						count++;
+					}
+					if (count > 1)
+						throw new Exception("Multiple of the same ID was found...");
+					this.name = name;
 
-			int count = 0;
-			while (results.next()){
-				this.name = results.getString("first_name") + " " + results.getString("last_name");
-				count++;
+					return true;
+				}
+				catch(Exception e){
+					e.printStackTrace();
+					return false;
+				}
 			}
-			if (count > 1)
-				System.out.println("Two of the same IDs were found...");
-			else
-				System.out.println("Data pulled successfully");
+			try (PreparedStatement call = con.prepareStatement("SELECT * FROM get_classes_for_coach(?)"))){
 
-			return true;
+				call.setInt(1, this.id);
+				// "try with resources" to automatically close connections
+				try(ResultSet results = call.executeQuery()){
+					int count = 0;
+					while (results.next()){
 
+						count++;
+					}
+					if (count > 1)
+						throw new Exception("Multiple of the same ID was found...");
+					this.name = name;
+
+					return true;
+				}
+				catch(Exception e){
+					e.printStackTrace();
+					return false;
+				}
 		}
 		catch(SQLException e){
 			System.out.println("Something went wrong searching for coaches");
