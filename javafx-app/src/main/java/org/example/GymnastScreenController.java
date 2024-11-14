@@ -1,9 +1,12 @@
 package org.example;
 
+import org.objects.Gymnast;
+
 import org.example.MainController;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
@@ -18,25 +21,33 @@ import javafx.stage.Stage;
 import javafx.beans.value.*;
 
 public class GymnastScreenController implements Initializable{
-    @FXML
-    public VBox center;
-    @FXML
-    public HBox topHBox;
-    @FXML
-    public HBox middleHBox;
-    @FXML
-    public TableView gymnastTable;
-    @FXML
-    public TextField nameField;
+    @FXML public VBox center;
+    @FXML public HBox topHBox;
+    @FXML public HBox middleHBox;
+    @FXML public TableView gymnastTable;
+    @FXML public TextField nameField;
+    @FXML public TableColumn<Gymnast, String> firstNameColumn;
+    @FXML public TableColumn<Gymnast, String> lastNameColumn;
+    @FXML public TableColumn<Gymnast, String> classNameColumn;
 
     private final StringProperty nameFieldText = new SimpleStringProperty();
 
     public void initialize(URL location, ResourceBundle resources){
-        //firstHBox.prefHeightProperty().bind(center.heightProperty().multiply(0.25));
         topHBox.spacingProperty().bind(center.widthProperty().multiply(.1));
         gymnastTable.prefWidthProperty().bind(center.widthProperty().multiply(.8));
-        System.out.println(MainController.USER);
         nameFieldText.bindBidirectional(nameField.textProperty());
+
+        firstNameColumn = new TableColumn<>("First Name");
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastNameColumn = new TableColumn<>("Last Name");
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        classNameColumn = new TableColumn<>("Class");
+        classNameColumn.setCellValueFactory(cellData -> {
+            return new SimpleStringProperty(cellData.getValue().getGroup().getName());
+        });
+        gymnastTable.getColumns().add(firstNameColumn);
+        gymnastTable.getColumns().add(lastNameColumn);
+        gymnastTable.getColumns().add(classNameColumn);
     }
 
     public void searchDB(){

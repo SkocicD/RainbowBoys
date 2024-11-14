@@ -5,20 +5,20 @@ import java.sql.*;
 
 public class Coach{
 
-	private String name;
-	private ArrayList<Class> classes;
-	private int id;
+    private String name;
+    private ArrayList<Group> groups;
+    private int id;
 
 
-	public Coach(int id){
-		this.id = id;
-		pullById();
-	}
-	public Coach(int id, String name){
-		this.id = id;
-		this.name = name;
-		pullById();
-	}
+    public Coach(int id){
+	this.id = id;
+	pullById();
+    }
+    public Coach(int id, String name){
+	this.id = id;
+	this.name = name;
+	pullById();
+    }
 	public Coach (String name){
 		this.name = name;
 	}
@@ -32,7 +32,7 @@ public class Coach{
 	public boolean pullById(){
 		// "try with resources" to automatically close connections
 		try (Connection con = DatabaseConnector.connect()){
-			try (PreparedStatement call = con.prepareStatement("SELECT * FROM get_coach(?)"))){
+			try (PreparedStatement call = con.prepareStatement("SELECT * FROM get_coach(?)")){
 				call.setInt(1, this.id);
 				// "try with resources" to automatically close connections
 				try(ResultSet results = call.executeQuery()){
@@ -50,10 +50,9 @@ public class Coach{
 				}
 				catch(Exception e){
 					e.printStackTrace();
-					return false;
 				}
 			}
-			try (PreparedStatement call = con.prepareStatement("SELECT * FROM get_classes_for_coach(?)"))){
+			try (PreparedStatement call = con.prepareStatement("SELECT * FROM get_classes_for_coach(?)")){
 
 				call.setInt(1, this.id);
 				// "try with resources" to automatically close connections
@@ -69,10 +68,11 @@ public class Coach{
 
 					return true;
 				}
-				catch(Exception e){
-					e.printStackTrace();
-					return false;
-				}
+			}
+			catch(Exception e){
+				e.printStackTrace();
+				return false;
+			}
 		}
 		catch(SQLException e){
 			System.out.println("Something went wrong searching for coaches");

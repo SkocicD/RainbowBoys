@@ -14,7 +14,13 @@
         <ComboBox prefWidth="150" promptText="gymnast class"/>
     </HBox>
     <HBox styleClass="middle-hbox" fx:id="middleHBox">
-        <TableView fx:id="gymnastTable"/>
+        <TableView fx:id="gymnastTable">
+            <columns>
+                <TableColumn fx:id="firstNameColumn" text="First Name" prefWidth="150"/>
+                <TableColumn fx:id="lastNameColumn" text="Last Name" prefWidth="150"/>
+                <TableColumn fx:id="classNameColumn" text="Class" prefWidth="150"/>
+            </columns>
+        </TableView>
     </HBox>
     <HBox styleClass="bottom-hbox" fx:id="bottomHBox">
         <Button text="Print Gymnast Reports"/>

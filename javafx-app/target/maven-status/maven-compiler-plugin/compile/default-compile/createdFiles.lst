@@ -1,8 +1,9 @@
 org/example/Main.class
 org/objects/Coach.class
 org/example/MainController$1.class
-org/objects/Class.class
 org/example/CoachScreenController.class
+org/objects/Group.class
+org/objects/Gymnast.class
 org/example/MainController.class
 org/example/GymnastScreenController.class
 org/example/ClassScreenController.class
