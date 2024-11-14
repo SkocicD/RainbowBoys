@@ -23,6 +23,12 @@ public class Gymnast {
 		this.lastName.set(lastName);
 		this.group = group;
 	}
+	public String getFirstName(){
+		return firstName.get();
+	}
+	public String getLastName(){
+		return lastName.get();
+	}
 
 	public Group getGroup(){
 		return this.group;

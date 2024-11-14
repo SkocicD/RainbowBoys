@@ -20,6 +20,8 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.beans.value.*;
 
+import java.util.ArrayList;
+
 public class GymnastScreenController implements Initializable{
     @FXML public VBox center;
     @FXML public HBox topHBox;
@@ -42,12 +44,28 @@ public class GymnastScreenController implements Initializable{
         classNameColumn.setCellValueFactory(cellData -> {
             return new SimpleStringProperty(cellData.getValue().getGroup().getName());
         });
-        //gymnastTable.getColumns().add(firstNameColumn);
-        //gymnastTable.getColumns().add(lastNameColumn);
-        //gymnastTable.getColumns().add(classNameColumn);
     }
 
     public void searchDB(){
+        String name[] = nameFieldText.get().split(" ");
+        String fname = "";
+        String lname = "";
+
+        if (name.length == 1){
+            fname = name[0];
+            lname = name[0];
+        }
+        if (name.length == 2){
+            fname = name[0];
+            lname = name[1];
+        }
+            
+        ArrayList<Gymnast> gs = Gymnast.getGymnastsByName(fname,lname);
+        gymnastTable.getItems().clear();
+        for (Gymnast g:gs)
+            //System.out.println(g.getFirstName();
+            gymnastTable.getItems().add(g);
+        
         System.out.println(nameFieldText);
     }
 

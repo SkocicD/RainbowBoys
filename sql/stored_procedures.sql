@@ -33,20 +33,20 @@ RETURNS TABLE (first_name VARCHAR(40), last_name VARCHAR(40), class_id INT)
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    RETURN QUERY SELECT gymnasts.first_name, gymnasts.last_name gymnasts.class_id FROM gymnasts WHERE gymnasts.gymnast_id = id;
+    RETURN QUERY SELECT gymnasts.first_name, gymnasts.last_name, gymnasts.class_id FROM gymnasts WHERE gymnasts.gymnast_id = id;
 END;
 $$;
 
 
-DROP FUNCTION get_gymnast_by_name;
-CREATE FUNCTION get_gymnast_by_name(first_name TEXT, last_name TEXT)
+DROP FUNCTION get_gymnasts_by_name;
+CREATE FUNCTION get_gymnasts_by_name(fname TEXT, lname TEXT)
 RETURNS TABLE (gymnast_id INT, first_name VARCHAR(40), last_name VARCHAR(40), class_id INT, class_name VARCHAR(60))
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    RETURN QUERY SELECT g.gymnast_id g.first_name, g.last_name g.class_id c.class_name FROM gymnasts g JOIN classes c ON g.class_id = c.class_id
-    WHERE g.first_name ILIKE % || first_name || %
-	OR g.last_name ILIKE % || last_name || %;
+    RETURN QUERY SELECT g.gymnast_id, g.first_name, g.last_name, g.class_id, c.class_name FROM gymnasts g JOIN classes c ON g.class_id = c.class_id
+    WHERE g.first_name ILIKE '%' || fname || '%'
+	OR g.last_name ILIKE '%' || lname || '%';
 END;
 $$;
 
