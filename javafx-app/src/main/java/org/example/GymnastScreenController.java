@@ -37,17 +37,14 @@ public class GymnastScreenController implements Initializable{
         gymnastTable.prefWidthProperty().bind(center.widthProperty().multiply(.8));
         nameFieldText.bindBidirectional(nameField.textProperty());
 
-        firstNameColumn = new TableColumn<>("First Name");
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        lastNameColumn = new TableColumn<>("Last Name");
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        classNameColumn = new TableColumn<>("Class");
         classNameColumn.setCellValueFactory(cellData -> {
             return new SimpleStringProperty(cellData.getValue().getGroup().getName());
         });
-        gymnastTable.getColumns().add(firstNameColumn);
-        gymnastTable.getColumns().add(lastNameColumn);
-        gymnastTable.getColumns().add(classNameColumn);
+        //gymnastTable.getColumns().add(firstNameColumn);
+        //gymnastTable.getColumns().add(lastNameColumn);
+        //gymnastTable.getColumns().add(classNameColumn);
     }
 
     public void searchDB(){
