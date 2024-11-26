@@ -23,7 +23,7 @@
         </TableView>
     </HBox>
     <HBox styleClass="bottom-hbox" fx:id="bottomHBox">
-        <Button text="Print Gymnast Reports"/>
+        <Button text="Print Gymnast Reports" fx:id="printButton" onAction="#showErrorPopup"/>
         <Button text="Add a New Gymnast"/>
     </HBox>
 </VBox>

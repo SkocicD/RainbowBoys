@@ -65,9 +65,9 @@ public class Gymnast {
 			return false;
 		}
     }
-	public static ArrayList<Gymnast> getGymnastsByName(String firstName, String lastName, String cname){
+	public static ArrayList<Gymnast> getGymnastsByFullName(String firstName, String lastName, String cname){
 		try (Connection con = DatabaseConnector.connect()){
-			try (PreparedStatement call = con.prepareStatement("SELECT * FROM get_gymnasts_by_name(?, ?, ?)")){
+			try (PreparedStatement call = con.prepareStatement("SELECT * FROM get_gymnasts_by_full_name(?, ?, ?)")){
 				call.setString(1, firstName);
 				call.setString(2, lastName);
 				call.setString(3, cname);
@@ -89,7 +89,43 @@ public class Gymnast {
 						Gymnast gy = new Gymnast(gymnastId, fname, lname, g);
 						resultList.add(gy);
 					}
-					System.out.println(resultList.size());
+					return resultList;
+				}
+			}
+			catch(Exception e){
+				e.printStackTrace();
+				return null;
+			}
+		} catch (SQLException e){
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+    }
+
+    public static ArrayList<Gymnast> getGymnastsBySingleName(String name, String cname){
+		try (Connection con = DatabaseConnector.connect()){
+			try (PreparedStatement call = con.prepareStatement("SELECT * FROM get_gymnasts_by_single_name(?, ?)")){
+				call.setString(1, name);
+				call.setString(2, cname);
+				try(ResultSet results = call.executeQuery()){
+					ArrayList<Gymnast> resultList = new ArrayList<>();
+					int count = 0;
+					String fname = "";
+					String lname = "";
+					String className = "";
+					int classId = -1;
+					int gymnastId = -1;
+					while (results.next()){
+						fname = results.getString("first_name");
+						lname = results.getString("last_name");
+						className = results.getString("class_name");
+						classId = results.getInt("class_id");
+						gymnastId = results.getInt("gymnast_id");
+						Group g = new Group(classId, className);
+						Gymnast gy = new Gymnast(gymnastId, fname, lname, g);
+						resultList.add(gy);
+					}
 					return resultList;
 				}
 			}

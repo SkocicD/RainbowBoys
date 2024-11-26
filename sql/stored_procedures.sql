@@ -38,19 +38,32 @@ END;
 $$;
 
 
-DROP FUNCTION get_gymnasts_by_name;
-CREATE FUNCTION get_gymnasts_by_name(fname TEXT, lname TEXT, cname TEXT)
+DROP FUNCTION get_gymnasts_by_single_name;
+CREATE FUNCTION get_gymnasts_by_single_name(name TEXT, clsname TEXT)
+RETURNS TABLE (gymnast_id INT, first_name VARCHAR(40), last_name VARCHAR(40), class_id INT, class_name VARCHAR(60))
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY SELECT g.gymnast_id, g.first_name, g.last_name, g.class_id, c.class_name FROM gymnasts g JOIN classes c ON g.class_id = c.class_id
+    WHERE (g.first_name ILIKE '%' || name || '%'
+	OR g.last_name ILIKE '%' || name || '%')
+	AND c.class_name ILIKE '%' || clsname || '%';
+END;
+$$;
+
+
+DROP FUNCTION get_gymnasts_by_full_name;
+CREATE FUNCTION get_gymnasts_by_full_name(fname TEXT, lname TEXT, clsname TEXT)
 RETURNS TABLE (gymnast_id INT, first_name VARCHAR(40), last_name VARCHAR(40), class_id INT, class_name VARCHAR(60))
 LANGUAGE plpgsql
 AS $$
 BEGIN
     RETURN QUERY SELECT g.gymnast_id, g.first_name, g.last_name, g.class_id, c.class_name FROM gymnasts g JOIN classes c ON g.class_id = c.class_id
     WHERE (g.first_name ILIKE '%' || fname || '%'
-	OR g.last_name ILIKE '%' || lname || '%')
-	AND c.class_name ILIKE '%' || cname || '%';
+	AND g.last_name ILIKE '%' || lname || '%')
+	AND c.class_name ILIKE '%' || clsname || '%';
 END;
 $$;
-
 
 
 
