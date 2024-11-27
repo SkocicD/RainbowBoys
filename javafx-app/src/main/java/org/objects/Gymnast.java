@@ -29,6 +29,7 @@ public class Gymnast {
 	public String getLastName(){
 		return lastName.get();
 	}
+    public int getId(){ return id.get(); }
 
 	public Group getGroup(){
 		return this.group;
@@ -73,20 +74,9 @@ public class Gymnast {
 				call.setString(3, cname);
 				try(ResultSet results = call.executeQuery()){
 					ArrayList<Gymnast> resultList = new ArrayList<>();
-					int count = 0;
-					String fname = "";
-					String lname = "";
-					String className = "";
-					int classId = -1;
-					int gymnastId = -1;
 					while (results.next()){
-						fname = results.getString("first_name");
-						lname = results.getString("last_name");
-						className = results.getString("class_name");
-						classId = results.getInt("class_id");
-						gymnastId = results.getInt("gymnast_id");
-						Group g = new Group(classId, className);
-						Gymnast gy = new Gymnast(gymnastId, fname, lname, g);
+						Group g = new Group(results.getInt("class_id"), results.getString("class_name"));
+						Gymnast gy = new Gymnast(results.getInt("gymnast_id"),results.getString("first_name"),results.getString("last_name"), g);
 						resultList.add(gy);
 					}
 					return resultList;
@@ -110,20 +100,9 @@ public class Gymnast {
 				call.setString(2, cname);
 				try(ResultSet results = call.executeQuery()){
 					ArrayList<Gymnast> resultList = new ArrayList<>();
-					int count = 0;
-					String fname = "";
-					String lname = "";
-					String className = "";
-					int classId = -1;
-					int gymnastId = -1;
 					while (results.next()){
-						fname = results.getString("first_name");
-						lname = results.getString("last_name");
-						className = results.getString("class_name");
-						classId = results.getInt("class_id");
-						gymnastId = results.getInt("gymnast_id");
-						Group g = new Group(classId, className);
-						Gymnast gy = new Gymnast(gymnastId, fname, lname, g);
+						Group g = new Group(results.getInt("class_id"), results.getString("class_name"));
+						Gymnast gy = new Gymnast(results.getInt("gymnast_id"),results.getString("first_name"),results.getString("last_name"), g);
 						resultList.add(gy);
 					}
 					return resultList;
