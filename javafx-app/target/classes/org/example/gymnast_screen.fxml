@@ -11,7 +11,7 @@
     fx:controller="org.example.GymnastScreenController">
     <HBox styleClass="top-hbox" fx:id="topHBox">
         <TextField fx:id="nameField" onAction="#searchDB" promptText="gymnast name"/>
-        <TextField fx:id="nameField" onAction="#searchDB" promptText="Age"/>
+        <TextField fx:id="ageField" onAction="#searchDB" promptText="Age" prefWidth="50"/>
         <ComboBox fx:id="classField" onAction="#searchDB" prefWidth="150" promptText="gymnast class"/>
     </HBox>
     <HBox styleClass="middle-hbox" fx:id="middleHBox">
@@ -19,16 +19,15 @@
             <columns>
                 <TableColumn fx:id="firstNameColumn" text="First Name" prefWidth="150"/>
                 <TableColumn fx:id="lastNameColumn" text="Last Name" prefWidth="150"/>
-                <TableColumn fx:id="classNameColumn" text="Class" prefWidth="150"/>
-                <TableColumn text="Brithdate" prefWidth="150"/>
-                <TableColumn text="Age" prefWidth="150"/>
+                <TableColumn fx:id="birthdateColumn" text="Brithdate" prefWidth="150"/>
+                <TableColumn fx:id="ageColumn" text="Age" prefWidth="150"/>
             </columns>
         </TableView>
     </HBox>
     <HBox styleClass="bottom-hbox" fx:id="bottomHBox">
         <Button text="Print Gymnast Reports" fx:id="printButton" onAction="#showErrorPopup"/>
-        <Button text="Add All Selected to Print" onAction="#addSelectedGymnastsToPrint"/>
-        <Button text="Show Print List" fx:id="showPrintListButton" onAction="#addSelectedGymnastsToPrint"/>
-        <Button text="Select All Shown" onAction="#selectAllShown"/>
+        <Button text="Add All Selected to Print" onAction="#addAllToPrint"/>
+        <Button text="Show Print List" fx:id="showPrintListButton"/>
+        <Button text="Add a Gymnast" fx:id="addGymnastButton"/>
     </HBox>
 </VBox>

@@ -1,0 +1,16 @@
+things I need to do
+
+- write fxml for add gymnast screen
+    - first name
+    - last name
+    - birthdate
+    - class (optional)
+- write fxml for edit gymnast progress screen
+    - name (label)
+    - birthdate, age (label)
+    - checkboxes for all 4
+    - option to add and remove class
+    - option to add and remove comment
+- write stored procedure for insert new gymnast
+- write stored procedure for edit gymnast
+- figure out how to print

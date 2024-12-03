@@ -1,6 +1,7 @@
 package org.example;
 
 import org.objects.Gymnast;
+import org.objects.DatabaseConnector;
 
 import org.example.MainController;
 import javafx.beans.property.*;
@@ -18,6 +19,7 @@ import javafx.stage.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.*;
+import javafx.scene.input.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,7 +33,8 @@ public class GymnastScreenController implements Initializable{
     @FXML public ComboBox classField;
     @FXML public TableColumn<Gymnast, String> firstNameColumn;
     @FXML public TableColumn<Gymnast, String> lastNameColumn;
-    @FXML public TableColumn<Gymnast, String> classNameColumn;
+    @FXML public TableColumn<Gymnast, String> birthdateColumn;
+    @FXML public TableColumn<Gymnast, Number> ageColumn;
     @FXML public Button printButton;
     @FXML public Button showPrintListButton;
 
@@ -42,23 +45,39 @@ public class GymnastScreenController implements Initializable{
     private HashSet<Integer> printSet = new HashSet<>();
 
     public void initialize(URL location, ResourceBundle resources){
+
         topHBox.spacingProperty().bind(center.widthProperty().multiply(.1));
         gymnastTable.prefWidthProperty().bind(center.widthProperty().multiply(.8));
         showPrintListButton.textProperty().bind(printListText);
         nameFieldText.bindBidirectional(nameField.textProperty());
+
+        firstNameColumn.prefWidthProperty().bind(gymnastTable.widthProperty().multiply(.25));
+        lastNameColumn.prefWidthProperty().bind(gymnastTable.widthProperty().multiply(.25));
+        ageColumn.prefWidthProperty().bind(gymnastTable.widthProperty().multiply(.25));
+        birthdateColumn.prefWidthProperty().bind(gymnastTable.widthProperty().multiply(.25));
+
         ObservableList<String> comboBoxOptions = FXCollections.observableArrayList(
             "class 1",
             "class 2"
         );
+
         classFieldText.bindBidirectional(classField.valueProperty());
         classField.setItems(comboBoxOptions);
 
-        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        classNameColumn.setCellValueFactory(cellData -> {
-            return new SimpleStringProperty(cellData.getValue().getGroup().getName());
-        });
+        firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
+        lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty()); 
+        ageColumn.setCellValueFactory(cellData -> cellData.getValue().ageProperty()); 
+        birthdateColumn.setCellValueFactory(cellData -> cellData.getValue().birthdateProperty());
+        // setup gymnast table
         gymnastTable.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
+        // if there is a double click, call method
+        gymnastTable.setOnMouseClicked(event -> {
+            // Check if the click count is 2 for a double-click
+            if (event.getClickCount() == 2) { 
+                openGymnastEditor();
+                // Get the selected row (item)
+            }
+        });
         searchDB();
     }
 
@@ -70,9 +89,9 @@ public class GymnastScreenController implements Initializable{
         
         ArrayList<Gymnast> gs = null;
         if (name.length == 1)
-            gs = Gymnast.getGymnastsBySingleName(name[0], clsname);
+            gs = DatabaseConnector.getGymnastsBySingleName(name[0], clsname);
         else if (name.length == 2)
-            gs = Gymnast.getGymnastsByFullName(name[0], name[1], clsname);
+            gs = DatabaseConnector.getGymnastsByFullName(name[0], name[1], clsname);
         
         if (gs != null){
             gymnastTable.getItems().clear();
@@ -81,16 +100,23 @@ public class GymnastScreenController implements Initializable{
         }
     }
 
-    public void addSelectedGymnastsToPrint(){
-        for (Gymnast g: gymnastTable.getSelectionModel().getSelectedItems()){
+    public void addAllToPrint(){
+        printSet.clear();
+        for (Gymnast g: gymnastTable.getItems())
             printSet.add(g.getId());
-        }
+
         printListText.set("Show List to Print (" + printSet.size() + ")");
         System.out.println(printSet.size());
     }
 
-    public void selectAllShown(){
-        gymnastTable.getSelectionModel().selectAll();
+    public void openGymnastEditor(){
+        Gymnast g = gymnastTable.getSelectionModel().getSelectedItem();
+        int gymnastId = 0;
+        if (g != null) 
+            gymnastId = g.getId();
+        else
+            return;
+        System.out.println("Double-clicked on: " + gymnastId); 
     }
 
     public void showErrorPopup() {

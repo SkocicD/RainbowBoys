@@ -1,14 +1,4 @@
-DROP PROCEDURE update_coach;
-CREATE PROCEDURE update_coach(name TEXT, id NUMERIC)
-LANGUAGE plpgsql
-AS $$
-BEGIN
-    INSERT INTO coaches(coach_id,first_name) VALUES (id, name);
-END;
-$$;
-
-DROP FUNCTION get_coach;
-CREATE FUNCTION get_coach(id NUMERIC)
+CREATE OR REPLACE FUNCTION get_coach(id NUMERIC)
 RETURNS TABLE(coach_id INT, first_name VARCHAR(40), last_name VARCHAR(40))
 LANGUAGE plpgsql
 AS $$
@@ -27,41 +17,42 @@ BEGIN
 END;
 $$;
 
-DROP FUNCTION get_gymnast;
-CREATE FUNCTION get_gymnast(id NUMERIC)
-RETURNS TABLE (first_name VARCHAR(40), last_name VARCHAR(40), class_id INT)
+CREATE OR REPLACE FUNCTION get_gymnast(id NUMERIC)
+RETURNS SETOF gymnasts
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    RETURN QUERY SELECT gymnasts.first_name, gymnasts.last_name, gymnasts.class_id FROM gymnasts WHERE gymnasts.gymnast_id = id;
+    RETURN QUERY SELECT * FROM gymnasts WHERE gymnasts.id = id;
 END;
 $$;
 
-
-DROP FUNCTION get_gymnasts_by_single_name;
-CREATE FUNCTION get_gymnasts_by_single_name(name TEXT, clsname TEXT)
-RETURNS TABLE (gymnast_id INT, first_name VARCHAR(40), last_name VARCHAR(40), class_id INT, class_name VARCHAR(60))
+CREATE OR REPLACE FUNCTION get_gymnasts_by_single_name(input_name TEXT, clsname TEXT)
+RETURNS SETOF gymnasts
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    RETURN QUERY SELECT g.gymnast_id, g.first_name, g.last_name, g.class_id, c.class_name FROM gymnasts g JOIN classes c ON g.class_id = c.class_id
-    WHERE (g.first_name ILIKE '%' || name || '%'
-	OR g.last_name ILIKE '%' || name || '%')
-	AND c.class_name ILIKE '%' || clsname || '%';
+    RETURN QUERY
+    SELECT g.* FROM gymnasts g 
+    JOIN gymnast_classes gc ON gc.gymnast_id=g.id
+    JOIN classes c ON gc.class_id = c.id
+    WHERE (g.first_name ILIKE '%' || input_name || '%'
+	OR g.last_name ILIKE '%' || input_name || '%')
+    AND c.name = clsname;
 END;
 $$;
 
-
-DROP FUNCTION get_gymnasts_by_full_name;
-CREATE FUNCTION get_gymnasts_by_full_name(fname TEXT, lname TEXT, clsname TEXT)
-RETURNS TABLE (gymnast_id INT, first_name VARCHAR(40), last_name VARCHAR(40), class_id INT, class_name VARCHAR(60))
+CREATE OR REPLACE FUNCTION get_gymnasts_by_full_name(fname TEXT, lname TEXT, clsname TEXT)
+RETURNS SETOF gymnasts 
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    RETURN QUERY SELECT g.gymnast_id, g.first_name, g.last_name, g.class_id, c.class_name FROM gymnasts g JOIN classes c ON g.class_id = c.class_id
+    RETURN QUERY 
+    SELECT g.* FROM gymnasts g 
+    JOIN gymnast_classes gc ON gc.gymnast_id=g.id
+    JOIN classes c ON gc.class_id = c.id
     WHERE (g.first_name ILIKE '%' || fname || '%'
 	AND g.last_name ILIKE '%' || lname || '%')
-	AND c.class_name ILIKE '%' || clsname || '%';
+    AND c.name = clsname;
 END;
 $$;
 
