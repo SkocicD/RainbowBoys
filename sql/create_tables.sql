@@ -37,8 +37,6 @@ WHEN (NEW.id IS NULL) -- Only trigger when id is not provided
 EXECUTE FUNCTION assign_lowest_class_id();
 ---------------------------------------------------------------
 
-
-
 CREATE TABLE coaches(
 	id INT PRIMARY KEY,
 	first_name TEXT NOT NULL, 
@@ -51,12 +49,12 @@ CREATE TABLE gymnasts(
 	first_name TEXT NOT NULL,
 	last_name TEXT NOT NULL, 
 	birthdate DATE NOT NULL,
-	floor_progress DATE[],
-	pommel_progress DATE[],
-	rings_progress DATE[],
-	vault_progress DATE[],
-	pbar_progress DATE[],
-	hbar_progress DATE[],
+	floor_progress DATE[] DEFAULT '{}',
+	pommel_progress DATE[] DEFAULT '{}',
+	rings_progress DATE[] DEFAULT '{}',
+	vault_progress DATE[] DEFAULT '{}',
+	pbar_progress DATE[] DEFAULT '{}',
+	hbar_progress DATE[] DEFAULT '{}',
     date_added DATE DEFAULT NOW()
 );
 
@@ -99,6 +97,6 @@ CREATE TABLE class_coaches(
     date_assigned DATE DEFAULT NOW(),
 	FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE CASCADE,
 	FOREIGN KEY (coach_id) REFERENCES coaches(id) ON DELETE CASCADE,
-	UNIQUE (class_id, coach_id)
+	PRIMARY KEY (class_id, coach_id)
 );
 

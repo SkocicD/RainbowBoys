@@ -35,7 +35,7 @@
 
     <HBox spacing="20" alignment="CENTER" styleClass="button-container">
         <Button text="Add" fx:id="addButton" onAction="#addGymnast"/>
-        <Button text="Cancel" fx:id="cancelButton" onAction="#closeWindow"/>
+        <Button text="Cancel" fx:id="cancelButton"/>
     </HBox>
 
 </VBox>

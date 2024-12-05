@@ -137,6 +137,8 @@ public class GymnastScreenController implements Initializable{
 
             // Show the popup
             gymnastProgressStage.show();
+            ProgressController controller= loader.getController();
+            controller.setGymnastInfo(gymnastId, g.getFirstName() + " " +g.getLastName(), g.getAge());
         } catch (Exception e) {
             e.printStackTrace(); // Handle any loading errors
         }

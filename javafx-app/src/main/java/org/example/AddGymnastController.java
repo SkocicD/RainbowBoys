@@ -38,12 +38,10 @@ public class AddGymnastController implements Initializable{
             if (e.getCharacter().equals(" "))
                 e.consume();
         });
+        cancelButton.setOnAction(event->HelperFunctions.closeWindow(event.getSource()));
     }
+    
 
-    public void closeWindow(){
-        Stage stage = (Stage) addButton.getScene().getWindow();
-        stage.close();
-    }
     public void addGymnast(){
         if (firstNameField.getText().equals("")){
             error("Enter a First Name");
@@ -72,6 +70,7 @@ public class AddGymnastController implements Initializable{
         
         DatabaseConnector.insert_gymnast(fname,lname,bdate,rclass.getId());
         System.out.println("Gymnast Added");
+        HelperFunctions.closeWindow(addButton);
 
     }
 

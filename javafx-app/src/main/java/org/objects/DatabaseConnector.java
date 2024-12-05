@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javafx.collections.*;
 import org.objects.*;
 import java.time.LocalDate;
+import org.example.HelperFunctions;
 
 
 public class DatabaseConnector {
@@ -93,6 +94,35 @@ public class DatabaseConnector {
             return null;
         }
     }
+    public static LocalDate[][] getProgress(int id){
+        try {
+            Connection con = DatabaseConnector.connect();
+            PreparedStatement call = con.prepareStatement("SELECT * FROM get_gymnast(?)");
+            call.setInt(1,id);
+            ResultSet results = call.executeQuery();
+            LocalDate[][] dates = new LocalDate[6][27];
+
+            
+            while (results.next()){
+                for (int i = 0; i < HelperFunctions.EVENT_COLUMNS.length; i++){
+                    Date[] daterow = (Date[]) results.getArray(HelperFunctions.EVENT_COLUMNS[i]).getArray();
+                    for (int j=0; j < daterow.length; j++)
+                        dates[i][j] = daterow[j].toLocalDate();
+                }
+            }
+
+            results.close();
+            call.close();
+            con.close();
+
+            return dates;
+
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
     public static void insert_gymnast(String fname, String lname, LocalDate birthdate, int class_id){
         try {
             Connection con = DatabaseConnector.connect();
@@ -110,4 +140,5 @@ public class DatabaseConnector {
             e.printStackTrace();
         }
     }
+
 }

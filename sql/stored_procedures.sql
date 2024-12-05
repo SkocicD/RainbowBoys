@@ -1,13 +1,3 @@
-CREATE OR REPLACE FUNCTION get_coach(id NUMERIC)
-RETURNS TABLE(coach_id INT, first_name VARCHAR(40), last_name VARCHAR(40))
-LANGUAGE plpgsql
-AS $$
-BEGIN
-    RETURN QUERY SELECT coaches.coach_id, coaches.first_name, coaches.last_name FROM coaches WHERE coaches.coach_id = id;
-END;
-$$;
-
-
 CREATE OR REPLACE FUNCTION get_classes(clsname TEXT)
 RETURNS SETOF classes
 LANGUAGE plpgsql
@@ -33,21 +23,39 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION get_classes_for_coach(id NUMERIC)
-RETURNS TABLE (coach_id INT, class_id INT) 
+CREATE OR REPLACE PROCEDURE update_gymnast_classes(param_gymnast_id INTEGER, param_class_id INTEGER)
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    RETURN QUERY SELECT class_coaches.coach_id, class_coaches.class_id FROM class_coaches WHERE class_coaches.coach_id = id;
+    INSERT INTO gymnast_classes(gymnast_id, class_id)
+    VALUES (param_gymnast_id, param_class_id)
+    ON CONFLICT (gymnast_id, class_id) DO NOTHING;
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION get_gymnast(id NUMERIC)
+CREATE OR REPLACE PROCEDURE update_gymnast(param_id INTEGER, param_floor_progress DATE[], param_pommel_progress DATE[], param_rings_progress DATE[],
+    param_vault_progress DATE[], param_pbar_progress DATE[], param_hbar_progress DATE[])
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE gymnasts
+    SET 
+        floor_progress = param_floor_progress,
+        pommel_progress = param_pommel_progress,
+        rings_progress = param_rings_progress,
+        vault_progress = param_vault_progress,
+        pbar_progress = param_pbar_progress,
+        hbar_progress = param_hbar_progress
+    WHERE id = id_param;
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION get_gymnast(param_id NUMERIC)
 RETURNS SETOF gymnasts
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    RETURN QUERY SELECT * FROM gymnasts WHERE gymnasts.id = id;
+    RETURN QUERY SELECT * FROM gymnasts WHERE gymnasts.id = param_id;
 END;
 $$;
 
