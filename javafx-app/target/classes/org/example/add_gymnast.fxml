@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      prefWidth="400" prefHeight="300"
+      spacing="10"
+      alignment="CENTER"
+      styleClass="popup-container"
+      fx:controller="org.example.AddGymnastController">
+
+    <Label text="Add New Gymnast" styleClass="header-label"/>
+    
+    <VBox spacing="5" alignment="CENTER_LEFT" prefWidth="350">
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="First Name:" prefWidth="100"/>
+            <TextField fx:id="firstNameField" promptText="Enter first name"/>
+        </HBox>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Last Name:" prefWidth="100"/>
+            <TextField fx:id="lastNameField" promptText="Enter last name"/>
+        </HBox>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Birthdate:" prefWidth="100"/>
+            <DatePicker fx:id="birthdateField"/>
+        </HBox>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Class:" prefWidth="100"/>
+            <ComboBox fx:id="classField" promptText="Select a class"/>
+        </HBox>
+    </VBox>
+
+    <HBox spacing="20" alignment="CENTER" styleClass="button-container">
+        <Button text="Add" fx:id="addButton" onAction="#addGymnast"/>
+        <Button text="Cancel" fx:id="cancelButton" onAction="#closeWindow"/>
+    </HBox>
+
+</VBox>

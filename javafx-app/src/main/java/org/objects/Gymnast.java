@@ -11,7 +11,6 @@ public class Gymnast {
     private final StringProperty firstName = new SimpleStringProperty();
     private final StringProperty lastName = new SimpleStringProperty();
     private final ObjectProperty<LocalDate> birthdate = new SimpleObjectProperty<>();
-    private final ObjectProperty<ArrayList<Class>> classes = new SimpleObjectProperty<>(); 
     private final IntegerProperty age = new SimpleIntegerProperty();
 
     public Gymnast(int id, String firstName, String lastName, LocalDate birthdate){
@@ -46,8 +45,6 @@ public class Gymnast {
 
     public LocalDate getBirthdate(){ return birthdate.get(); }
     public ObjectProperty birthdateProperty(){ return birthdate; }
-
-    public ArrayList<Class> getClasses(){ return classes.get(); }
 
     public int getAge(){ return age.get(); } 
     public IntegerProperty ageProperty(){ return age; }

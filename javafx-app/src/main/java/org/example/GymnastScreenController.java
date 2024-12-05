@@ -1,7 +1,6 @@
 package org.example;
 
-import org.objects.Gymnast;
-import org.objects.DatabaseConnector;
+import org.objects.*;
 
 import org.example.MainController;
 import javafx.beans.property.*;
@@ -30,7 +29,8 @@ public class GymnastScreenController implements Initializable{
     @FXML public HBox middleHBox;
     @FXML public TableView<Gymnast> gymnastTable;
     @FXML public TextField nameField;
-    @FXML public ComboBox classField;
+    @FXML public TextField ageField;
+    @FXML public ComboBox<RainbowClass> classField;
     @FXML public TableColumn<Gymnast, String> firstNameColumn;
     @FXML public TableColumn<Gymnast, String> lastNameColumn;
     @FXML public TableColumn<Gymnast, String> birthdateColumn;
@@ -38,8 +38,6 @@ public class GymnastScreenController implements Initializable{
     @FXML public Button printButton;
     @FXML public Button showPrintListButton;
 
-    private final StringProperty nameFieldText = new SimpleStringProperty();
-    private final StringProperty classFieldText = new SimpleStringProperty();
     private final StringProperty printListText = new SimpleStringProperty("Show List to Print (0)");
 
     private HashSet<Integer> printSet = new HashSet<>();
@@ -49,20 +47,23 @@ public class GymnastScreenController implements Initializable{
         topHBox.spacingProperty().bind(center.widthProperty().multiply(.1));
         gymnastTable.prefWidthProperty().bind(center.widthProperty().multiply(.8));
         showPrintListButton.textProperty().bind(printListText);
-        nameFieldText.bindBidirectional(nameField.textProperty());
 
         firstNameColumn.prefWidthProperty().bind(gymnastTable.widthProperty().multiply(.25));
         lastNameColumn.prefWidthProperty().bind(gymnastTable.widthProperty().multiply(.25));
         ageColumn.prefWidthProperty().bind(gymnastTable.widthProperty().multiply(.25));
         birthdateColumn.prefWidthProperty().bind(gymnastTable.widthProperty().multiply(.25));
 
-        ObservableList<String> comboBoxOptions = FXCollections.observableArrayList(
-            "class 1",
-            "class 2"
-        );
+        //formatter to only allow integer input
+        TextFormatter<Integer> integerFormatter = new TextFormatter<>(change -> {
+            if (change.getControlNewText().matches("-?\\d*")) {
+                return change;
+            } else {
+                return null; 
+            }
+        });
 
-        classFieldText.bindBidirectional(classField.valueProperty());
-        classField.setItems(comboBoxOptions);
+        // Apply the formatter to the TextField
+        ageField.setTextFormatter(integerFormatter);
 
         firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty()); 
@@ -78,26 +79,30 @@ public class GymnastScreenController implements Initializable{
                 // Get the selected row (item)
             }
         });
-        searchDB();
+        refresh();
     }
 
-    public void searchDB(){
-        String clsname = classFieldText.get();
-        if (clsname == null)
-            clsname = "";
-        String name[] = nameFieldText.get().split(" ");
-        
-        ArrayList<Gymnast> gs = null;
-        if (name.length == 1)
-            gs = DatabaseConnector.getGymnastsBySingleName(name[0], clsname);
-        else if (name.length == 2)
-            gs = DatabaseConnector.getGymnastsByFullName(name[0], name[1], clsname);
-        
-        if (gs != null){
-            gymnastTable.getItems().clear();
-            for (Gymnast g:gs)
-                gymnastTable.getItems().add(g);
-        }
+    public void refresh(){
+        classField.setItems(DatabaseConnector.getClasses(null));
+        fillGymnastTable();
+    }
+
+    public void fillGymnastTable(){
+        // query database
+        RainbowClass rclass = classField.getValue();
+        String clsname = null;
+        if (rclass!=null) clsname = rclass.getName();
+
+        Integer age = null;
+        if (!ageField.getText().equals("")) age = Integer.parseInt(ageField.getText());
+
+        String name[] = nameField.getText().split(" ");
+        String fname = null, lname = null;
+        if (name.length > 0) fname = name[0];
+        if (name.length > 1) lname = name[1]; 
+        if (name.length > 2) { showErrorPopup(); return; }
+
+        gymnastTable.setItems(DatabaseConnector.getGymnasts(fname, lname, age, clsname));
     }
 
     public void addAllToPrint(){
@@ -117,6 +122,44 @@ public class GymnastScreenController implements Initializable{
         else
             return;
         System.out.println("Double-clicked on: " + gymnastId); 
+
+        try {
+            // Load the FXML for the error dialog
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gymnast_progress.fxml"));
+            Parent root = loader.load();
+            //root.getStylesheets().add(getClass().getResource("/org/example/add_gymnast_styles.css").toExternalForm());
+
+            // Create a new Stage for the error dialog
+            Stage gymnastProgressStage = new Stage();
+            gymnastProgressStage.setTitle("Track Gymnast Progress");
+            gymnastProgressStage.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows
+            gymnastProgressStage.setScene(new Scene(root));
+
+            // Show the popup
+            gymnastProgressStage.show();
+        } catch (Exception e) {
+            e.printStackTrace(); // Handle any loading errors
+        }
+    }
+
+    public void openGymnastCreator(){
+        try {
+            // Load the FXML for the error dialog
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/add_gymnast.fxml"));
+            Parent root = loader.load();
+            root.getStylesheets().add(getClass().getResource("/org/example/add_gymnast_styles.css").toExternalForm());
+
+            // Create a new Stage for the error dialog
+            Stage addGymnastStage = new Stage();
+            addGymnastStage.setTitle("Add a New Gymnast");
+            addGymnastStage.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows
+            addGymnastStage.setScene(new Scene(root));
+
+            // Show the popup
+            addGymnastStage.show();
+        } catch (Exception e) {
+            e.printStackTrace(); // Handle any loading errors
+        }
     }
 
     public void showErrorPopup() {

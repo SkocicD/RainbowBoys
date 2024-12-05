@@ -2,7 +2,9 @@ package org.objects;
 
 import java.sql.*;
 import java.util.ArrayList;
-import org.objects.Gymnast;
+import javafx.collections.*;
+import org.objects.*;
+import java.time.LocalDate;
 
 
 public class DatabaseConnector {
@@ -40,16 +42,18 @@ public class DatabaseConnector {
         }
     }
 
-    public static ArrayList<Gymnast> getGymnastsByFullName(String firstName, String lastName, String clsname){
+    public static ObservableList<Gymnast> getGymnasts(String firstName, String lastName, Integer age, String clsname){
         try {
             Connection con = DatabaseConnector.connect();
-            PreparedStatement call = con.prepareStatement("SELECT * FROM get_gymnasts_by_full_name(?, ?, ?)");
-            call.setString(1, firstName);
-            call.setString(2, lastName);
-            call.setString(3, clsname);
+            PreparedStatement call = con.prepareStatement("SELECT * FROM get_gymnasts(?, ?, ?, ?)");
+            
+            call.setString(1, firstName); 
+            call.setString(2, lastName); 
+            if (age == null) call.setNull(3, Types.INTEGER); else call.setInt(3, age); 
+            call.setString(4,clsname); 
 
             ResultSet results = call.executeQuery();
-            ArrayList<Gymnast> resultList = new ArrayList<>();
+            ObservableList<Gymnast> resultList = FXCollections.observableArrayList(); 
 
             while (results.next())
                 resultList.add(new Gymnast(results));
@@ -66,19 +70,16 @@ public class DatabaseConnector {
             return null;
         }
     }
-
-    public static ArrayList<Gymnast> getGymnastsBySingleName(String name, String clsname){
+    public static ObservableList<RainbowClass> getClasses(String name){
         try {
             Connection con = DatabaseConnector.connect();
-            PreparedStatement call = con.prepareStatement("SELECT * FROM get_gymnasts_by_single_name(?, ?)");
-            call.setString(1, name);
-            call.setString(2, clsname);
-
+            PreparedStatement call = con.prepareStatement("SELECT * FROM get_classes(?)");
+            call.setString(1,name);
             ResultSet results = call.executeQuery();
-            ArrayList<Gymnast> resultList = new ArrayList<>();
+            ObservableList<RainbowClass> resultList = FXCollections.observableArrayList(); 
 
             while (results.next())
-                resultList.add(new Gymnast(results));
+                resultList.add(new RainbowClass(results));
 
             results.close();
             call.close();
@@ -90,6 +91,23 @@ public class DatabaseConnector {
             System.out.println(e.getMessage());
             e.printStackTrace();
             return null;
+        }
+    }
+    public static void insert_gymnast(String fname, String lname, LocalDate birthdate, int class_id){
+        try {
+            Connection con = DatabaseConnector.connect();
+            CallableStatement call = con.prepareCall("CALL insert_gymnast(?,?,?,?)");
+            call.setString(1,fname);
+            call.setString(2,lname);
+            call.setDate(3,Date.valueOf(birthdate));
+            call.setInt(4,class_id);
+            call.executeUpdate();
+            call.close();
+            con.close();
+
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }

@@ -1,11 +1,12 @@
 org/example/Main.class
 org/objects/Coach.class
 org/example/MainController$1.class
-org/example/CoachScreenController.class
-org/objects/Group.class
-org/objects/Gymnast.class
+org/example/AddGymnastController.class
 org/example/MainController.class
 org/example/GymnastScreenController.class
 org/example/ClassScreenController.class
+org/example/ProgressController.class
+org/objects/RainbowClass.class
+org/example/CoachScreenController.class
+org/objects/Gymnast.class
 org/objects/DatabaseConnector.class
-org/objects/DayTime.class

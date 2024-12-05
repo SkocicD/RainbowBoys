@@ -17,6 +17,9 @@ insert into gymnasts (first_name, last_name, birthdate) values ('carey', 'turner
 insert into gymnasts (first_name, last_name, birthdate) values ('adolfo', 'barber', '11-18-2003');
 
 insert into classes (name) values ('class 1');
+insert into classes (name) values ('class 2');
+insert into classes (name) values ('class 3');
+insert into classes (name) values ('class 4');
 
 insert into gymnast_classes(gymnast_id, class_id) values(1,1);
 insert into gymnast_classes(gymnast_id, class_id) values(2,1);

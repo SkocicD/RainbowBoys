@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10"
+      alignment="TOP_CENTER"
+      prefWidth="800" prefHeight="600"
+      fx:controller="org.example.ProgressController">
+
+    <!-- Header Section -->
+    <Label fx:id="gymnastDetailsLabel"
+           text="Gymnast Name - Birthdate"
+           styleClass="header-label"
+           alignment="CENTER"/>
+
+    <!-- Classes Section -->
+    <VBox spacing="10" alignment="TOP_LEFT" prefWidth="750">
+        <Label text="Classes:"/>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <ListView fx:id="classesListView" prefHeight="150" prefWidth="400"/>
+            <VBox spacing="10">
+                <Button text="Remove Selected" fx:id="removeClassButton"/>
+                <HBox spacing="10" alignment="CENTER">
+                    <ComboBox fx:id="addClassDropdown" promptText="Select Class" prefWidth="150"/>
+                    <Button text="Add Class" fx:id="addClassButton"/>
+                </HBox>
+            </VBox>
+        </HBox>
+    </VBox>
+    <!--Skills Section-->
+    <!--filled in in controller-->
+    <GridPane fx:id="skillsGrid" hgap="10" vgap="10" alignment="CENTER_LEFT"/>
+</VBox>
