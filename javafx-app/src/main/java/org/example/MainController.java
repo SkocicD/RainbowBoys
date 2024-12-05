@@ -48,7 +48,6 @@ public class MainController implements Initializable{
         classHeaderButton.setToggleGroup(headerToggle);
         coachHeaderButton.setToggleGroup(headerToggle);
 
-        System.out.println("here");
         gymnastHeaderButton.setSelected(true);
 
         screens = new HashMap<>();

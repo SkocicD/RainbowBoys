@@ -25,9 +25,8 @@
         </TableView>
     </HBox>
     <HBox styleClass="bottom-hbox" fx:id="bottomHBox">
-        <Button text="Print Gymnast Reports" fx:id="printButton" onAction="#showErrorPopup"/>
+        <Button text="Print Gymnast Reports" fx:id="printButton" onAction="#printPDF"/>
         <Button text="Add All Selected to Print" onAction="#addAllToPrint"/>
-        <Button text="Show Print List" fx:id="showPrintListButton"/>
         <Button text="Add a Gymnast" fx:id="addGymnastButton" onAction='#openGymnastCreator'/>
     </HBox>
 </VBox>

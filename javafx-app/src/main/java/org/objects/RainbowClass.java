@@ -25,4 +25,5 @@ public class RainbowClass{
     public StringProperty getNameProperty(){ return name; }
     public String toString(){ return name.get(); }
     public int getId(){ return id.get(); }
+    public boolean equals(RainbowClass r) { return (getId() == r.getId()); }
 }

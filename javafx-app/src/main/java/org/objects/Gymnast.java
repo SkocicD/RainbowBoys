@@ -4,6 +4,7 @@ import java.sql.*;
 import java.time.*;
 import java.util.ArrayList;
 import javafx.beans.property.*;
+import java.time.LocalDate;
 
 public class Gymnast {
 
@@ -12,6 +13,7 @@ public class Gymnast {
     private final StringProperty lastName = new SimpleStringProperty();
     private final ObjectProperty<LocalDate> birthdate = new SimpleObjectProperty<>();
     private final IntegerProperty age = new SimpleIntegerProperty();
+    private LocalDate[][] progress = new LocalDate[6][27];
 
     public Gymnast(int id, String firstName, String lastName, LocalDate birthdate){
         this.id.set(id);
@@ -20,17 +22,40 @@ public class Gymnast {
         this.birthdate.set(birthdate);
         this.age.set(Period.between(this.birthdate.get(),LocalDate.now()).getYears());
     }
+    
+    
 
     public Gymnast (ResultSet r){
         try {
-            this.id.set(r.getInt("id"));
-            this.firstName.set(r.getString("first_name"));
-            this.lastName.set(r.getString("last_name"));
-            this.birthdate.set(r.getDate("birthdate").toLocalDate());
-            this.age.set(Period.between(this.birthdate.get(),LocalDate.now()).getYears());
+            if (inResultSet(r, "id")) {
+                this.id.set(r.getInt("id"));
+                this.progress = DatabaseConnector.getProgress(this.id.get());
+            }
+            if (inResultSet(r,"first_name")) this.firstName.set(r.getString("first_name"));
+            if (inResultSet(r, "last_name")) this.lastName.set(r.getString("last_name"));
+            if (inResultSet(r, "birthdate")) {
+                this.birthdate.set(r.getDate("birthdate").toLocalDate());
+                this.age.set(Period.between(this.birthdate.get(),LocalDate.now()).getYears());
+            }
         }
-        catch(Exception e){
-            System.out.println("Unable to create a gymnast from the result set");
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean inResultSet(ResultSet r, String columnname){
+        try {
+            ResultSetMetaData metaData = r.getMetaData();
+            for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                if (metaData.getColumnName(i).equalsIgnoreCase(columnname)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -48,4 +73,6 @@ public class Gymnast {
 
     public int getAge(){ return age.get(); } 
     public IntegerProperty ageProperty(){ return age; }
+
+    public LocalDate[][] getProgress() { return progress; }
 }

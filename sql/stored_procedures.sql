@@ -3,8 +3,21 @@ RETURNS SETOF classes
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    RETURN QUERY SELECT * FROM classes
-    WHERE classes.name = clsname or clsname IS NULL;
+    RETURN QUERY SELECT * FROM classes as c
+    WHERE (c.name ILIKE '%' || clsname || '%' OR clsname IS NULL);
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION get_classes_for_gymnast(param_gymnast_id INT)
+RETURNS SETOF classes
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY SELECT c.* FROM classes c
+    INNER JOIN 
+        gymnast_classes gc ON c.id = gc.class_id
+    WHERE 
+        gc.gymnast_id = param_gymnast_id;
 END;
 $$;
 
@@ -23,13 +36,21 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE PROCEDURE update_gymnast_classes(param_gymnast_id INTEGER, param_class_id INTEGER)
+CREATE OR REPLACE PROCEDURE delete_gymnast_classes(param_gymnast_id INTEGER)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    DELETE FROM gymnast_classes as gc
+    WHERE gc.gymnast_id = param_gymnast_id;
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE insert_gymnast_classe(param_gymnast_id INTEGER, param_class_id INTEGER)
 LANGUAGE plpgsql
 AS $$
 BEGIN
     INSERT INTO gymnast_classes(gymnast_id, class_id)
-    VALUES (param_gymnast_id, param_class_id)
-    ON CONFLICT (gymnast_id, class_id) DO NOTHING;
+    VALUES (param_gymnast_id, param_class_id);
 END;
 $$;
 
@@ -46,7 +67,7 @@ BEGIN
         vault_progress = param_vault_progress,
         pbar_progress = param_pbar_progress,
         hbar_progress = param_hbar_progress
-    WHERE id = id_param;
+    WHERE gymnasts.id = param_id;
 END;
 $$;
 

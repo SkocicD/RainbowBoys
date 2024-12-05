@@ -10,14 +10,12 @@
     fx:id="center"
     fx:controller="org.example.ClassScreenController">
     <HBox styleClass="top-hbox" fx:id="topHBox">
-        <TextField/>
-        <TextField/>
-        <ComboBox prefWidth="150"/>
+        <TextField fx:id="nameField" onAction="#searchDB" promptText="Class Name"/>
     </HBox>
     <HBox styleClass="middle-hbox" fx:id="middleHBox">
-        <TableView fx:id="classTable"/>
+        <ListView fx:id="classList"/>
     </HBox>
     <HBox styleClass="bottom-hbox" fx:id="bottomHBox">
-        <Button text="Add a New Class"/>
+        <Button fx:id="addButton" text="Add a New Class"/>
     </HBox>
 </VBox>

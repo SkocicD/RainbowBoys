@@ -4,7 +4,7 @@ import org.objects.*;
 
 import org.example.MainController;
 import javafx.beans.property.*;
-import javafx.collections.FXCollections;
+import javafx.collections.*;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.ObservableList;
@@ -36,7 +36,6 @@ public class GymnastScreenController implements Initializable{
     @FXML public TableColumn<Gymnast, String> birthdateColumn;
     @FXML public TableColumn<Gymnast, Number> ageColumn;
     @FXML public Button printButton;
-    @FXML public Button showPrintListButton;
 
     private final StringProperty printListText = new SimpleStringProperty("Show List to Print (0)");
 
@@ -46,7 +45,6 @@ public class GymnastScreenController implements Initializable{
 
         topHBox.spacingProperty().bind(center.widthProperty().multiply(.1));
         gymnastTable.prefWidthProperty().bind(center.widthProperty().multiply(.8));
-        showPrintListButton.textProperty().bind(printListText);
 
         firstNameColumn.prefWidthProperty().bind(gymnastTable.widthProperty().multiply(.25));
         lastNameColumn.prefWidthProperty().bind(gymnastTable.widthProperty().multiply(.25));
@@ -181,5 +179,11 @@ public class GymnastScreenController implements Initializable{
         } catch (Exception e) {
             e.printStackTrace(); // Handle any loading errors
         }
+    }
+    public void printPDF(){
+        ObservableList<Gymnast> gymnasts = FXCollections.observableArrayList();
+        for (Gymnast g: gymnastTable.getItems())
+            gymnasts.add(DatabaseConnector.getGymnast(g.getId()));
+        PDFPrinter.print(classField.getValue().getName(), gymnasts);
     }
 }

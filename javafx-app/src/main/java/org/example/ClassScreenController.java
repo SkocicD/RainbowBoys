@@ -1,5 +1,6 @@
 package org.example;
 
+import org.objects.*;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import java.net.URL;
@@ -15,19 +16,22 @@ import javafx.beans.value.*;
 
 public class ClassScreenController implements Initializable{
 
-    @FXML
-    public VBox center;
-    @FXML
-    public HBox topHBox;
-    @FXML
-    public HBox middleHBox;
-    @FXML
-    public TableView classTable;
+    @FXML public VBox center;
+    @FXML public HBox topHBox;
+    @FXML public HBox middleHBox;
+    @FXML public ListView classList;
+    @FXML public TextField nameField;
 
     public void initialize(URL location, ResourceBundle resources){
         //firstHBox.prefHeightProperty().bind(center.heightProperty().multiply(0.25));
         topHBox.spacingProperty().bind(center.widthProperty().multiply(.1));
-        classTable.prefWidthProperty().bind(center.widthProperty().multiply(.8));
+        classList.prefWidthProperty().bind(center.widthProperty().multiply(.8));
+        classList.setItems(DatabaseConnector.getClasses(null));
+    }
+
+    public void searchDB(){
+        classList.getItems().clear();
+        classList.setItems(DatabaseConnector.getClasses(nameField.getText()));
     }
 
 }

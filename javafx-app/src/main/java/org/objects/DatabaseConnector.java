@@ -28,6 +28,7 @@ public class DatabaseConnector {
             call.setInt(1, id);
 
             ResultSet results = call.executeQuery();
+            results.next();
             Gymnast g = new Gymnast(results);
 
             results.close();
@@ -58,6 +59,29 @@ public class DatabaseConnector {
 
             while (results.next())
                 resultList.add(new Gymnast(results));
+
+            results.close();
+            call.close();
+            con.close();
+
+            return resultList;
+
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public static ObservableList<RainbowClass> getClassesForGymnast(int id){
+        try {
+            Connection con = DatabaseConnector.connect();
+            PreparedStatement call = con.prepareStatement("SELECT * FROM get_classes_for_gymnast(?)");
+            call.setInt(1, id);
+            ResultSet results = call.executeQuery();
+            ObservableList<RainbowClass> resultList = FXCollections.observableArrayList(); 
+
+            while (results.next())
+                resultList.add(new RainbowClass(results));
 
             results.close();
             call.close();
@@ -107,7 +131,7 @@ public class DatabaseConnector {
                 for (int i = 0; i < HelperFunctions.EVENT_COLUMNS.length; i++){
                     Date[] daterow = (Date[]) results.getArray(HelperFunctions.EVENT_COLUMNS[i]).getArray();
                     for (int j=0; j < daterow.length; j++)
-                        dates[i][j] = daterow[j].toLocalDate();
+                        dates[i][j] = (daterow[j]!=null) ? daterow[j].toLocalDate() : null;
                 }
             }
 
@@ -140,5 +164,54 @@ public class DatabaseConnector {
             e.printStackTrace();
         }
     }
+    public static void updateGymnast(int id, LocalDate[][] progress){
+        try {
+            Connection con = DatabaseConnector.connect();
+            CallableStatement call = con.prepareCall("CALL update_gymnast(?,?,?,?,?,?,?)");
+            call.setInt(1,id);
+            // sql dates use a different object type
+            Date[][] sqlDates = new Date[progress.length][progress[0].length];
+            for (int r = 0; r < progress.length; r++){
+                for (int c = 0; c < progress[0].length; c++)
+                    sqlDates[r][c] = (progress[r][c] != null) ? Date.valueOf(progress[r][c]) : null;
+                call.setArray(r+2, con.createArrayOf("Date", sqlDates[r]));
+            }
 
+            call.executeUpdate();
+            call.close();
+            con.close();
+            System.out.println("Gymnast Successfully Updated");
+
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    public static void deleteGymnastClasses(int gymnastId){
+        try {
+            Connection con = DatabaseConnector.connect();
+            CallableStatement call = con.prepareCall("CALL delete_gymnast_classes(?)");
+            call.setInt(1,gymnastId);
+            call.executeUpdate();
+            call.close();
+            con.close();
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    public static void insertGymnastClasses(int gymnastId, int classId){
+        try {
+            Connection con = DatabaseConnector.connect();
+            CallableStatement call = con.prepareCall("CALL insert_gymnast_classe(?, ?)");
+            call.setInt(1, gymnastId);
+            call.setInt(2, classId);
+            call.executeUpdate();
+            call.close();
+            con.close();
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
