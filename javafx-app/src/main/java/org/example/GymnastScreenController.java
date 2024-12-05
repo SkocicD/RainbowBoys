@@ -53,17 +53,17 @@ public class GymnastScreenController implements Initializable{
         ageColumn.prefWidthProperty().bind(gymnastTable.widthProperty().multiply(.25));
         birthdateColumn.prefWidthProperty().bind(gymnastTable.widthProperty().multiply(.25));
 
-        //formatter to only allow integer input
-        TextFormatter<Integer> integerFormatter = new TextFormatter<>(change -> {
-            if (change.getControlNewText().matches("-?\\d*")) {
-                return change;
-            } else {
-                return null; 
-            }
+        // dont allow more than one space in the name field
+        nameField.addEventFilter(KeyEvent.KEY_TYPED, e -> {
+            if (nameField.getText().indexOf(' ') != -1 && e.getCharacter().equals(" "))
+                e.consume();
         });
 
-        // Apply the formatter to the TextField
-        ageField.setTextFormatter(integerFormatter);
+        // dont allow non digits in the age field
+        ageField.addEventFilter(KeyEvent.KEY_TYPED, e -> {
+            if (!e.getCharacter().matches("[0-9]"))
+                e.consume();  
+        });
 
         firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty()); 

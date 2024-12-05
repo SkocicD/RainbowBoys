@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.*;
 import javafx.stage.Stage;
@@ -29,7 +30,14 @@ public class AddGymnastController implements Initializable{
 
     public void initialize(URL location, ResourceBundle resources){
         classField.setItems(DatabaseConnector.getClasses(null));
-        // only alows nonspace characters
+        firstNameField.addEventFilter(KeyEvent.KEY_TYPED, e -> {
+            if (e.getCharacter().equals(" "))
+                e.consume();
+        });
+        lastNameField.addEventFilter(KeyEvent.KEY_TYPED, e -> {
+            if (e.getCharacter().equals(" "))
+                e.consume();
+        });
     }
 
     public void closeWindow(){
