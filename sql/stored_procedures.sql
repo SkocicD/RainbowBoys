@@ -95,7 +95,7 @@ LANGUAGE plpgsql
 AS $$
 BEGIN
     RETURN QUERY 
-    SELECT g.* FROM gymnasts g 
+    SELECT DISTINCT g.* FROM gymnasts g 
     LEFT JOIN gymnast_classes gc ON g.id=gc.gymnast_id
     LEFT JOIN classes c ON gc.class_id = c.id
     WHERE ((g.first_name ILIKE '%' || fname || '%' OR fname IS NULL)

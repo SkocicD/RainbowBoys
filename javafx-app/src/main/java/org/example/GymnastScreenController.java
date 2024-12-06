@@ -30,7 +30,7 @@ public class GymnastScreenController implements Initializable{
     @FXML public TableView<Gymnast> gymnastTable;
     @FXML public TextField nameField;
     @FXML public TextField ageField;
-    @FXML public ComboBox<RainbowClass> classField;
+    @FXML public ComboBox<Object> classField;
     @FXML public TableColumn<Gymnast, String> firstNameColumn;
     @FXML public TableColumn<Gymnast, String> lastNameColumn;
     @FXML public TableColumn<Gymnast, String> birthdateColumn;
@@ -67,8 +67,6 @@ public class GymnastScreenController implements Initializable{
         lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty()); 
         ageColumn.setCellValueFactory(cellData -> cellData.getValue().ageProperty()); 
         birthdateColumn.setCellValueFactory(cellData -> cellData.getValue().birthdateProperty());
-        // setup gymnast table
-        gymnastTable.getSelectionModel().setSelectionMode(javafx.scene.control.SelectionMode.MULTIPLE);
         // if there is a double click, call method
         gymnastTable.setOnMouseClicked(event -> {
             // Check if the click count is 2 for a double-click
@@ -81,13 +79,18 @@ public class GymnastScreenController implements Initializable{
     }
 
     public void refresh(){
-        classField.setItems(DatabaseConnector.getClasses(null));
+        classField.getItems().clear();
+        classField.getItems().addAll(DatabaseConnector.getClasses(null));
+        classField.getItems().add("No Class");
+        if (classField.getValue() == null)
+            classField.getSelectionModel().select("No Class");
         fillGymnastTable();
     }
 
     public void fillGymnastTable(){
         // query database
-        RainbowClass rclass = classField.getValue();
+        RainbowClass rclass = null;
+        if (classField.getValue() instanceof RainbowClass) rclass = (RainbowClass) classField.getValue(); 
         String clsname = null;
         if (rclass!=null) clsname = rclass.getName();
 
@@ -103,14 +106,6 @@ public class GymnastScreenController implements Initializable{
         gymnastTable.setItems(DatabaseConnector.getGymnasts(fname, lname, age, clsname));
     }
 
-    public void addAllToPrint(){
-        printSet.clear();
-        for (Gymnast g: gymnastTable.getItems())
-            printSet.add(g.getId());
-
-        printListText.set("Show List to Print (" + printSet.size() + ")");
-        System.out.println(printSet.size());
-    }
 
     public void openGymnastEditor(){
         Gymnast g = gymnastTable.getSelectionModel().getSelectedItem();
@@ -134,6 +129,8 @@ public class GymnastScreenController implements Initializable{
         ObservableList<Gymnast> gymnasts = FXCollections.observableArrayList();
         for (Gymnast g: gymnastTable.getItems())
             gymnasts.add(DatabaseConnector.getGymnast(g.getId()));
-        PDFPrinter.print(classField.getValue().getName(), gymnasts);
+        String className;
+        if (classField.getValue() instanceof RainbowClass) className = ((RainbowClass)classField.getValue()).getName(); else className = "No Class";
+        PDFPrinter.print(className, gymnasts);
     }
 }

@@ -12,12 +12,7 @@ public class DatabaseConnector {
     public static Connection connect() throws SQLException {
 
 	// TODO: update this to be a .env
-
-        String url = "jdbc:postgresql://localhost:5432/rainbow_boys";
-        String user = "davidskocic";
-        String password = "Me$merize";
-        
-        return DriverManager.getConnection(url, user, password);
+        return DriverManager.getConnection("jdbc:postgresql://pg-faf557a-skocicdavid-5428.b.aivencloud.com:17376/rainbow_boys?ssl=require&user=avnadmin&password=AVNS_PxjuOZ8Nk2Vz2TpjiLT");
     }
 
     public static Gymnast getGymnast(int id){
@@ -126,7 +121,6 @@ public class DatabaseConnector {
             ResultSet results = call.executeQuery();
             LocalDate[][] dates = new LocalDate[6][27];
 
-            
             while (results.next()){
                 for (int i = 0; i < HelperFunctions.EVENT_COLUMNS.length; i++){
                     Date[] daterow = (Date[]) results.getArray(HelperFunctions.EVENT_COLUMNS[i]).getArray();
