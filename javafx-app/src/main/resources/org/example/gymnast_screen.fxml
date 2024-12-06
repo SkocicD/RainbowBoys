@@ -8,6 +8,7 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml/1"
     fx:id="center"
+    stylesheets="org/styles/tab_styles.css"
     fx:controller="org.example.GymnastScreenController">
     <HBox styleClass="top-hbox" fx:id="topHBox">
         <TextField fx:id="nameField" onAction="#fillGymnastTable" promptText="gymnast name"/>
@@ -26,7 +27,6 @@
     </HBox>
     <HBox styleClass="bottom-hbox" fx:id="bottomHBox">
         <Button text="Print Gymnast Reports" fx:id="printButton" onAction="#printPDF"/>
-        <Button text="Add All Selected to Print" onAction="#addAllToPrint"/>
         <Button text="Add a Gymnast" fx:id="addGymnastButton" onAction='#openGymnastCreator'/>
     </HBox>
 </VBox>

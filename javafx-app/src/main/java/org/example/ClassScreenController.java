@@ -34,4 +34,8 @@ public class ClassScreenController implements Initializable{
         classList.setItems(DatabaseConnector.getClasses(nameField.getText()));
     }
 
+    public void openAddClassWindow(){
+        HelperFunctions.openWindow("/org/example/add_class.fxml", "Add a New Class");
+    }
+
 }

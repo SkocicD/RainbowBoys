@@ -36,6 +36,15 @@ BEGIN
 END;
 $$;
 
+CREATE OR REPLACE PROCEDURE insert_class(param_name TEXT)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO classes(name)
+    VALUES (param_name);
+END;
+$$;
+
 CREATE OR REPLACE PROCEDURE delete_gymnast_classes(param_gymnast_id INTEGER)
 LANGUAGE plpgsql
 AS $$

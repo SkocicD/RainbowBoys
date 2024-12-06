@@ -10,6 +10,7 @@
       spacing="10"
       alignment="CENTER"
       styleClass="popup-container"
+      stylesheets="org/styles/add_object_styles.css"
       fx:controller="org.example.AddGymnastController">
 
     <Label text="Add New Gymnast" styleClass="header-label"/>

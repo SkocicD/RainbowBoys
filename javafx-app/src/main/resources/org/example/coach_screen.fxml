@@ -8,11 +8,10 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml/1"
     fx:id="center"
+    stylesheets="org/styles/tab_styles.css"
     fx:controller="org.example.CoachScreenController">
     <HBox styleClass="top-hbox" fx:id="topHBox">
-        <TextField/>
-        <TextField/>
-        <ComboBox prefWidth="150"/>
+        <TextField promptText="Enter Coach Name"/>
     </HBox>
     <HBox styleClass="middle-hbox" fx:id="middleHBox">
         <TableView fx:id="coachTable"/>

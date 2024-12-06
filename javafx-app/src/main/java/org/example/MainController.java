@@ -54,11 +54,8 @@ public class MainController implements Initializable{
 
         try{
             gymnastScreen = FXMLLoader.load(getClass().getResource("gymnast_screen.fxml"));
-            gymnastScreen.getStylesheets().add(getClass().getResource("/org/example/gymnast_screen_styles.css").toExternalForm());
             coachScreen = FXMLLoader.load(getClass().getResource("coach_screen.fxml"));
-            coachScreen.getStylesheets().add(getClass().getResource("/org/example/coach_screen_styles.css").toExternalForm());
             classScreen = FXMLLoader.load(getClass().getResource("class_screen.fxml"));
-            classScreen.getStylesheets().add(getClass().getResource("/org/example/class_screen_styles.css").toExternalForm());
             screens.put("gymnast", gymnastScreen);
             screens.put("coach", coachScreen);
             screens.put("class", classScreen);

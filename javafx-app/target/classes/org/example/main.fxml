@@ -14,6 +14,7 @@
             xmlns:fx="http://javafx.com/fxml"
             prefWidth="1200" prefHeight="800"
             styleClass="border-pane"
+            stylesheets="org/styles/main_styles.css"
             fx:controller="org.example.MainController">
 
     <top>

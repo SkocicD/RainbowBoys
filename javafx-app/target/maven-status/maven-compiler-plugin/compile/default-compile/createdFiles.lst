@@ -3,6 +3,7 @@ org/objects/Coach.class
 org/example/MainController$1.class
 org/example/AddGymnastController.class
 org/objects/PDFPrinter.class
+org/example/AddClassController.class
 org/example/HelperFunctions.class
 org/example/MainController.class
 org/example/GymnastScreenController.class

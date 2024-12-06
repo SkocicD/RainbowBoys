@@ -21,8 +21,6 @@ public class Main extends Application {
         Scene scene = new Scene(root);
         ToggleGroup headerToggleGroup = new ToggleGroup();
 
-        scene.getStylesheets().add(getClass().getResource("/org/example/main_styles.css").toExternalForm());
-
         primaryStage.setTitle("Rainbow Boys");
         primaryStage.setScene(scene);
         primaryStage.show();

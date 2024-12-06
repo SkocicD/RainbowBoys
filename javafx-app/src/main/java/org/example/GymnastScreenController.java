@@ -114,71 +114,21 @@ public class GymnastScreenController implements Initializable{
 
     public void openGymnastEditor(){
         Gymnast g = gymnastTable.getSelectionModel().getSelectedItem();
-        int gymnastId = 0;
-        if (g != null) 
-            gymnastId = g.getId();
-        else
-            return;
+        if (g == null) return;
+
+        int gymnastId = g.getId();
         System.out.println("Double-clicked on: " + gymnastId); 
 
-        try {
-            // Load the FXML for the error dialog
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gymnast_progress.fxml"));
-            Parent root = loader.load();
-            //root.getStylesheets().add(getClass().getResource("/org/example/add_gymnast_styles.css").toExternalForm());
-
-            // Create a new Stage for the error dialog
-            Stage gymnastProgressStage = new Stage();
-            gymnastProgressStage.setTitle("Track Gymnast Progress");
-            gymnastProgressStage.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows
-            gymnastProgressStage.setScene(new Scene(root));
-
-            // Show the popup
-            gymnastProgressStage.show();
-            ProgressController controller= loader.getController();
-            controller.setGymnastInfo(gymnastId, g.getFirstName() + " " +g.getLastName(), g.getAge());
-        } catch (Exception e) {
-            e.printStackTrace(); // Handle any loading errors
-        }
+        ProgressController ctrl = HelperFunctions.openWindow("/org/example/progress_window.fxml", "Edit Gymnast Progress").getController();
+        ctrl.setGymnastInfo(gymnastId, g.getFirstName() + " " +g.getLastName(), g.getAge());
     }
 
     public void openGymnastCreator(){
-        try {
-            // Load the FXML for the error dialog
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/add_gymnast.fxml"));
-            Parent root = loader.load();
-            root.getStylesheets().add(getClass().getResource("/org/example/add_gymnast_styles.css").toExternalForm());
-
-            // Create a new Stage for the error dialog
-            Stage addGymnastStage = new Stage();
-            addGymnastStage.setTitle("Add a New Gymnast");
-            addGymnastStage.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows
-            addGymnastStage.setScene(new Scene(root));
-
-            // Show the popup
-            addGymnastStage.show();
-        } catch (Exception e) {
-            e.printStackTrace(); // Handle any loading errors
-        }
+        HelperFunctions.openWindow("/org/example/add_gymnast.fxml","Add Gymnast");
     }
 
     public void showErrorPopup() {
-        try {
-            // Load the FXML for the error dialog
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/error_message.fxml"));
-            Parent root = loader.load();
-
-            // Create a new Stage for the error dialog
-            Stage errorStage = new Stage();
-            errorStage.setTitle("Error");
-            errorStage.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows
-            errorStage.setScene(new Scene(root));
-
-            // Show the popup
-            errorStage.show();
-        } catch (Exception e) {
-            e.printStackTrace(); // Handle any loading errors
-        }
+        HelperFunctions.openWindow("/org/example/error_message.fxml","Error");
     }
     public void printPDF(){
         ObservableList<Gymnast> gymnasts = FXCollections.observableArrayList();

@@ -214,4 +214,17 @@ public class DatabaseConnector {
             e.printStackTrace();
         }
     }
+    public static void insertClass(String name){
+        try {
+            Connection con = DatabaseConnector.connect();
+            CallableStatement call = con.prepareCall("CALL insert_class(?)");
+            call.setString(1, name);
+            call.executeUpdate();
+            call.close();
+            con.close();
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

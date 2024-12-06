@@ -14,7 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.beans.value.*;
-import javafx.stage.Stage;
+import javafx.stage.*;
 import javafx.collections.*;
 import java.time.LocalDate;
 
@@ -25,5 +25,20 @@ public class HelperFunctions{
         Node n = (Node) o;
         Stage stage = (Stage) n.getScene().getWindow();
         stage.close();
+    }
+    public static FXMLLoader openWindow(String fxmlFile, String title){
+        try {
+            FXMLLoader loader = new FXMLLoader(HelperFunctions.class.getResource(fxmlFile));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows
+            stage.setScene(new Scene(root));
+            stage.show();
+            return loader;
+        } catch (Exception e) {
+            e.printStackTrace(); // Handle any loading errors
+            return null;
+        }
     }
 }

@@ -8,6 +8,7 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml/1"
     fx:id="center"
+    stylesheets="org/styles/tab_styles.css"
     fx:controller="org.example.ClassScreenController">
     <HBox styleClass="top-hbox" fx:id="topHBox">
         <TextField fx:id="nameField" onAction="#searchDB" promptText="Class Name"/>
@@ -16,6 +17,6 @@
         <ListView fx:id="classList"/>
     </HBox>
     <HBox styleClass="bottom-hbox" fx:id="bottomHBox">
-        <Button fx:id="addButton" text="Add a New Class"/>
+        <Button fx:id="addButton" onAction="#openAddClassWindow" text="Add a New Class"/>
     </HBox>
 </VBox>
