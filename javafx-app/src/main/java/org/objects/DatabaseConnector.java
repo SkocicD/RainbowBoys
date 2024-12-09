@@ -12,7 +12,7 @@ public class DatabaseConnector {
     public static Connection connect() throws SQLException {
 
 	// TODO: update this to be a .env
-        return DriverManager.getConnection("jdbc:postgresql://pg-faf557a-skocicdavid-5428.b.aivencloud.com:17376/rainbow_boys?ssl=require&user=avnadmin&password=AVNS_PxjuOZ8Nk2Vz2TpjiLT");
+        return DriverManager.getConnection(<API KEY>);
     }
 
     public static Gymnast getGymnast(int id){
