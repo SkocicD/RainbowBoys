@@ -6,6 +6,7 @@ import javafx.scene.layout.*;
 import java.time.LocalDate;
 import javafx.collections.*;
 import org.objects.*;
+import javafx.stage.*;
 
 public class ProgressController {
 
@@ -20,9 +21,8 @@ public class ProgressController {
     private static final int COLUMNS = 27;   // Checkboxes per row
 
     private CheckBox[][] checkBoxes = new CheckBox[HelperFunctions.EVENTS.length][COLUMNS];
-    private LocalDate[][] progress;
-    private LocalDate[][] progressCopy;
-    private int id;
+    private LocalDate[][] progressCopy = new LocalDate[HelperFunctions.EVENTS.length][COLUMNS];
+    private Gymnast g;
 
     @FXML
     public void initialize() {
@@ -44,28 +44,35 @@ public class ProgressController {
             skillsGrid.add(checkBoxRow, 1, i);
         }
         cancelButton.setOnAction(event->HelperFunctions.closeWindow(event.getSource()));
-        classesDropdown.setItems(DatabaseConnector.getClasses(null));
+        ObservableList<RainbowClass> classList = DatabaseConnector.getClasses(null);
+        classesDropdown.setItems(classList);
+        classesDropdown.getSelectionModel().select(classList.get(0));
         classesList.setPrefHeight(50);
 
     }
 
-    public void setGymnastInfo(int id, String name, int age) {
-        this.id = id;
-        gymnastDetailsLabel.setText(name + ", " + age + " years old");
-        progress = DatabaseConnector.getProgress(id);
-        progressCopy = DatabaseConnector.getProgress(id);
-        for (int r = 0; r < 6; r++)
-            for (int c = 0; c < COLUMNS; c++)
-                if (progress[r][c] != null)
+    public Stage getStage(){
+        return (Stage)classesList.getScene().getWindow();
+    }
+
+    public void setGymnastInfo(Gymnast g){
+        this.g = g;
+        gymnastDetailsLabel.setText(g.getFirstName() + " " + g.getLastName() + ", " + g.getAge() + " years old");
+        for (int r = 0; r < 6; r++){
+            for (int c = 0; c < COLUMNS; c++){
+                progressCopy[r][c] = g.getProgress()[r][c];
+                if (g.getProgress()[r][c] != null)
                     checkBoxes[r][c].setSelected(true);
-        classesList.setItems(DatabaseConnector.getClassesForGymnast(id));
+            }
+        }
+        classesList.setItems(DatabaseConnector.getClassesForGymnast(g.getId()));
     }
 
     public void updateGymnastInfo(){
-        DatabaseConnector.updateGymnast(id, progress);
-        DatabaseConnector.deleteGymnastClasses(id);
+        DatabaseConnector.updateGymnast(g);
+        DatabaseConnector.deleteGymnastClasses(g.getId());
         for (RainbowClass rclass:classesList.getItems())
-            DatabaseConnector.insertGymnastClasses(id, rclass.getId());
+            DatabaseConnector.insertGymnastClasses(g.getId(), rclass.getId());
         HelperFunctions.closeWindow(updateButton);
     }
 
@@ -76,8 +83,8 @@ public class ProgressController {
                 checkBoxes[row][c].setSelected(true);
         for (int r = 0; r < 6; r++){
             for (int c = 0; c < COLUMNS; c++){
-                if (checkBoxes[r][c].isSelected() && progressCopy[r][c]==null) progress[r][c] = LocalDate.now();
-                if (!checkBoxes[r][c].isSelected() && progressCopy[r][c]==null) progress[r][c] = null;
+                if (checkBoxes[r][c].isSelected() && progressCopy[r][c]==null) g.getProgress()[r][c] = LocalDate.now();
+                if (!checkBoxes[r][c].isSelected() && progressCopy[r][c]==null) g.getProgress()[r][c] = null;
             }
         }
     }

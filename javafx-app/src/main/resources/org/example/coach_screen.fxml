@@ -10,13 +10,19 @@
     fx:id="center"
     stylesheets="org/styles/tab_styles.css"
     fx:controller="org.example.CoachScreenController">
+
     <HBox styleClass="top-hbox" fx:id="topHBox">
-        <TextField promptText="Enter Coach Name"/>
+        <TextField fx:id="nameField" onAction="#fillCoachTable" promptText="Enter Coach Name"/>
     </HBox>
     <HBox styleClass="middle-hbox" fx:id="middleHBox">
-        <TableView fx:id="coachTable"/>
+        <TableView fx:id="coachTable">
+            <columns>
+                <TableColumn fx:id="firstNameColumn" text="First Name" prefWidth="150"/>
+                <TableColumn fx:id="lastNameColumn" text="Last Name" prefWidth="150"/>
+            </columns>
+        </TableView>
     </HBox>
     <HBox styleClass="bottom-hbox" fx:id="bottomHBox">
-        <Button text="Add a New Coach"/>
+        <Button text="Add a New Coach" onAction="#openAddCoachWindow"/>
     </HBox>
 </VBox>

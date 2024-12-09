@@ -1,4 +1,6 @@
 delete from gymnast_classes;
+delete from class_coaches;
+delete from coaches;
 delete from classes;
 delete from gymnasts;
 
@@ -21,6 +23,14 @@ insert into classes (name) values ('class 2');
 insert into classes (name) values ('class 3');
 insert into classes (name) values ('class 4');
 
+insert into coaches (first_name, last_name) values ('Greg', 'Skupski');
+insert into coaches (first_name, last_name) values ('Tim', 'Herring');
+
 insert into gymnast_classes(gymnast_id, class_id) values(1,1);
 insert into gymnast_classes(gymnast_id, class_id) values(2,1);
 insert into gymnast_classes(gymnast_id, class_id) values(3,1);
+
+insert into class_coaches(coach_id, class_id) values (1,1);
+insert into class_coaches(coach_id, class_id) values (1,2);
+insert into class_coaches(coach_id, class_id) values (1,3);
+insert into class_coaches(coach_id, class_id) values (1,4);

@@ -5,8 +5,9 @@ import java.time.*;
 import java.util.ArrayList;
 import javafx.beans.property.*;
 import java.time.LocalDate;
+import org.example.HelperFunctions;
 
-public class Gymnast {
+public class Gymnast{ 
 
     private final IntegerProperty id = new SimpleIntegerProperty();
     private final StringProperty firstName = new SimpleStringProperty();
@@ -15,27 +16,34 @@ public class Gymnast {
     private final IntegerProperty age = new SimpleIntegerProperty();
     private LocalDate[][] progress = new LocalDate[6][27];
 
-    public Gymnast(int id, String firstName, String lastName, LocalDate birthdate){
-        this.id.set(id);
-        this.firstName.set(firstName);
-        this.lastName.set(lastName);
-        this.birthdate.set(birthdate);
-        this.age.set(Period.between(this.birthdate.get(),LocalDate.now()).getYears());
+    public Gymnast(Gymnast g){
+        this.id.set(g.getId());
+        this.firstName.set(g.getFirstName());
+        this.lastName.set(g.getLastName());
+        this.birthdate.set(g.getBirthdate());
+        this.age.set(g.getAge());
+        for (int r = 0; r < this.progress.length; r++)
+            for (int c = 0; c < this.progress[0].length; c++)
+                this.progress[r][c] = g.getProgress()[r][c];
     }
     
     
 
     public Gymnast (ResultSet r){
         try {
-            if (inResultSet(r, "id")) {
-                this.id.set(r.getInt("id"));
-                this.progress = DatabaseConnector.getProgress(this.id.get());
-            }
-            if (inResultSet(r,"first_name")) this.firstName.set(r.getString("first_name"));
-            if (inResultSet(r, "last_name")) this.lastName.set(r.getString("last_name"));
-            if (inResultSet(r, "birthdate")) {
+            if (HelperFunctions.inResultSet(r, "id")) this.id.set(r.getInt("id"));
+            if (HelperFunctions.inResultSet(r,"first_name")) this.firstName.set(r.getString("first_name"));
+            if (HelperFunctions.inResultSet(r, "last_name")) this.lastName.set(r.getString("last_name"));
+            if (HelperFunctions.inResultSet(r, "birthdate")) {
                 this.birthdate.set(r.getDate("birthdate").toLocalDate());
                 this.age.set(Period.between(this.birthdate.get(),LocalDate.now()).getYears());
+            }
+            for (int row = 0; row < HelperFunctions.EVENT_COLUMNS.length; row++){
+                if (HelperFunctions.inResultSet(r, HelperFunctions.EVENT_COLUMNS[row])) {
+                    Date[] daterow = (Date[]) r.getArray(HelperFunctions.EVENT_COLUMNS[row]).getArray();
+                    for (int col = 0; col < daterow.length; col++)
+                        progress[row][col] = (daterow[col]!=null) ? daterow[col].toLocalDate() : null;
+                }
             }
         }
         catch (SQLException e) {

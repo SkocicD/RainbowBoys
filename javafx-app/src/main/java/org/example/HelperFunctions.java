@@ -2,10 +2,8 @@ package org.example;
 
 import org.objects.*;
 
-import javafx.fxml.Initializable;
-import javafx.fxml.FXML;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.sql.*;
+import javafx.fxml.*;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -41,4 +39,23 @@ public class HelperFunctions{
             return null;
         }
     }
+    public static boolean inResultSet(ResultSet r, String columnname){
+        try {
+            ResultSetMetaData metaData = r.getMetaData();
+            for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                if (metaData.getColumnName(i).equalsIgnoreCase(columnname)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+    public static void errorPopup(String title, String message) {
+        ((ErrorMessageController)HelperFunctions.openWindow("/org/example/error_message.fxml",title).getController()).setMessage(message);
+    }
+
 }

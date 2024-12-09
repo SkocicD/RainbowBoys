@@ -101,7 +101,6 @@ public class GymnastScreenController implements Initializable{
         String fname = null, lname = null;
         if (name.length > 0) fname = name[0];
         if (name.length > 1) lname = name[1]; 
-        if (name.length > 2) { showErrorPopup(); return; }
 
         gymnastTable.setItems(DatabaseConnector.getGymnasts(fname, lname, age, clsname));
     }
@@ -115,16 +114,14 @@ public class GymnastScreenController implements Initializable{
         System.out.println("Double-clicked on: " + gymnastId); 
 
         ProgressController ctrl = HelperFunctions.openWindow("/org/example/progress_window.fxml", "Edit Gymnast Progress").getController();
-        ctrl.setGymnastInfo(gymnastId, g.getFirstName() + " " +g.getLastName(), g.getAge());
+        ctrl.getStage().setOnHidden(event-> refresh());
+        ctrl.setGymnastInfo(new Gymnast(g)); 
     }
 
     public void openGymnastCreator(){
         HelperFunctions.openWindow("/org/example/add_gymnast.fxml","Add Gymnast");
     }
 
-    public void showErrorPopup() {
-        HelperFunctions.openWindow("/org/example/error_message.fxml","Error");
-    }
     public void printPDF(){
         ObservableList<Gymnast> gymnasts = FXCollections.observableArrayList();
         for (Gymnast g: gymnastTable.getItems())

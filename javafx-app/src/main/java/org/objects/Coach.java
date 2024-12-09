@@ -1,17 +1,37 @@
 package org.objects;
 
+import org.example.HelperFunctions;
+
 import java.util.ArrayList;
 import java.sql.*;
+import javafx.beans.property.*;
 
 public class Coach{
 
-    private String name;
-    private int id;
+    private final StringProperty firstName = new SimpleStringProperty();
+    private final StringProperty lastName = new SimpleStringProperty();
+    private final IntegerProperty id = new SimpleIntegerProperty();
 
 
-    public Coach (String name){
-        this.name = name;
+    public Coach(Coach c){
+        this.id.set(c.getId());
+        this.firstName.set(c.getFirstName());
+        this.lastName.set(c.getLastName());
     }
 
-    public String getName() { return name; }
+    public Coach (ResultSet r){
+        try{
+            if (HelperFunctions.inResultSet(r, "id")) this.id.set(r.getInt("id"));
+            if (HelperFunctions.inResultSet(r, "first_name")) this.firstName.set(r.getString("first_name"));
+            if (HelperFunctions.inResultSet(r, "last_name")) this.lastName.set(r.getString("last_name"));
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public int getId() { return id.get(); }
+    public String getLastName() { return firstName.get(); }
+    public String getFirstName() { return lastName.get(); }
+    public StringProperty firstNameProperty() { return firstName; }
+    public StringProperty lastNameProperty() { return lastName; }
 }

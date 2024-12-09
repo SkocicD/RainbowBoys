@@ -113,34 +113,6 @@ public class DatabaseConnector {
             return null;
         }
     }
-    public static LocalDate[][] getProgress(int id){
-        try {
-            Connection con = DatabaseConnector.connect();
-            PreparedStatement call = con.prepareStatement("SELECT * FROM get_gymnast(?)");
-            call.setInt(1,id);
-            ResultSet results = call.executeQuery();
-            LocalDate[][] dates = new LocalDate[6][27];
-
-            while (results.next()){
-                for (int i = 0; i < HelperFunctions.EVENT_COLUMNS.length; i++){
-                    Date[] daterow = (Date[]) results.getArray(HelperFunctions.EVENT_COLUMNS[i]).getArray();
-                    for (int j=0; j < daterow.length; j++)
-                        dates[i][j] = (daterow[j]!=null) ? daterow[j].toLocalDate() : null;
-                }
-            }
-
-            results.close();
-            call.close();
-            con.close();
-
-            return dates;
-
-        } catch (SQLException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
-    }
     public static void insert_gymnast(String fname, String lname, LocalDate birthdate, int class_id){
         try {
             Connection con = DatabaseConnector.connect();
@@ -158,23 +130,22 @@ public class DatabaseConnector {
             e.printStackTrace();
         }
     }
-    public static void updateGymnast(int id, LocalDate[][] progress){
+    public static void updateGymnast(Gymnast g){
         try {
             Connection con = DatabaseConnector.connect();
             CallableStatement call = con.prepareCall("CALL update_gymnast(?,?,?,?,?,?,?)");
-            call.setInt(1,id);
+            call.setInt(1,g.getId());
             // sql dates use a different object type
-            Date[][] sqlDates = new Date[progress.length][progress[0].length];
-            for (int r = 0; r < progress.length; r++){
-                for (int c = 0; c < progress[0].length; c++)
-                    sqlDates[r][c] = (progress[r][c] != null) ? Date.valueOf(progress[r][c]) : null;
+            Date[][] sqlDates = new Date[g.getProgress().length][g.getProgress()[0].length];
+            for (int r = 0; r < g.getProgress().length; r++){
+                for (int c = 0; c < g.getProgress()[0].length; c++)
+                    sqlDates[r][c] = (g.getProgress()[r][c] != null) ? Date.valueOf(g.getProgress()[r][c]) : null;
                 call.setArray(r+2, con.createArrayOf("Date", sqlDates[r]));
             }
 
             call.executeUpdate();
             call.close();
             con.close();
-            System.out.println("Gymnast Successfully Updated");
 
         } catch (SQLException e){
             System.out.println(e.getMessage());
@@ -197,7 +168,7 @@ public class DatabaseConnector {
     public static void insertGymnastClasses(int gymnastId, int classId){
         try {
             Connection con = DatabaseConnector.connect();
-            CallableStatement call = con.prepareCall("CALL insert_gymnast_classe(?, ?)");
+            CallableStatement call = con.prepareCall("CALL insert_gymnast_classes(?, ?)");
             call.setInt(1, gymnastId);
             call.setInt(2, classId);
             call.executeUpdate();
@@ -219,6 +190,93 @@ public class DatabaseConnector {
         } catch (SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
+        }
+    }
+    public static ObservableList<Coach> getCoaches(String fname, String lname){
+        try {
+            Connection con = DatabaseConnector.connect();
+            PreparedStatement call = con.prepareStatement("SELECT * FROM get_coaches(?,?)");
+            call.setString(1, fname);
+            call.setString(2, lname);
+
+            ResultSet results = call.executeQuery();
+            ObservableList<Coach> resultList = FXCollections.observableArrayList(); 
+
+            while (results.next())
+                resultList.add(new Coach(results));
+
+            call.close();
+            con.close();
+
+            return resultList;
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+    public static void insertCoach(String fname, String lname){
+        try {
+            Connection con = DatabaseConnector.connect();
+            CallableStatement call = con.prepareCall("CALL insert_coach(?, ?)");
+            call.setString(1, fname);
+            call.setString(2, lname);
+            call.executeUpdate();
+            call.close();
+            con.close();
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    public static void deleteClassCoaches(int coachId){
+        try {
+            Connection con = DatabaseConnector.connect();
+            CallableStatement call = con.prepareCall("CALL delete_class_coaches(?)");
+            call.setInt(1, coachId);
+            call.executeUpdate();
+            call.close();
+            con.close();
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    public static void insertClassCoaches(int coachId, int classId){
+        try {
+            Connection con = DatabaseConnector.connect();
+            CallableStatement call = con.prepareCall("CALL insert_class_coaches(?, ?)");
+            call.setInt(1, coachId);
+            call.setInt(2, classId);
+            call.executeUpdate();
+            call.close();
+            con.close();
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    public static ObservableList<RainbowClass> getClassCoaches(int coachId){
+        try {
+            Connection con = DatabaseConnector.connect();
+            PreparedStatement call = con.prepareStatement("SELECT * FROM get_class_coaches(?)");
+            call.setInt(1,coachId);
+            ResultSet results = call.executeQuery();
+            ObservableList<RainbowClass> resultList = FXCollections.observableArrayList(); 
+
+            while (results.next())
+                resultList.add(new RainbowClass(results));
+
+            results.close();
+            call.close();
+            con.close();
+
+            return resultList;
+
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return null;
         }
     }
 }

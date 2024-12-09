@@ -27,8 +27,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        //Coach coach = new Coach(60);
-        //System.exit(0);
         launch(args);
     }
 }

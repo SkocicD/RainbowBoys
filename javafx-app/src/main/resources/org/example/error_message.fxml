@@ -9,10 +9,11 @@
       xmlns:fx="http://javafx.com/fxml"
       alignment="CENTER"
       spacing="10"
+      fx:controller="org.example.ErrorMessageController"
       style="-fx-padding: 20; -fx-background-color: #ffeeee; -fx-border-color: #ff0000; -fx-border-width: 2;">
     
     <Label text="Error" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #ff0000;"/>
-    <Label text="An unexpected error occurred. Please try again." style="-fx-font-size: 14;"/>
-    <Button text="OK" fx:id="okButton" style="-fx-background-color: #ff0000; -fx-text-fill: white;"/>
+    <Label text="An unexpected error occurred. Please try again." fx:id="messageLabel" style="-fx-font-size: 14;"/>
+    <Button text="OK" fx:id="okButton" onAction="#closeWindow" style="-fx-background-color: #ff0000; -fx-text-fill: white;"/>
     
 </VBox>

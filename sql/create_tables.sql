@@ -44,6 +44,28 @@ CREATE TABLE coaches(
     date_added DATE DEFAULT NOW()
 );
 
+------- This uses the lowest available integer as the next id----
+CREATE OR REPLACE FUNCTION assign_lowest_coach_id()
+RETURNS TRIGGER AS $$
+DECLARE
+    new_id INTEGER;
+BEGIN
+    SELECT MIN(id + 1)
+    INTO new_id 
+    FROM coaches 
+    WHERE NOT EXISTS (SELECT 1 FROM coaches t2 WHERE t2.id = coaches.id + 1);
+    NEW.id := COALESCE(new_id, 1);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER set_lowest_coach_id
+BEFORE INSERT ON coaches 
+FOR EACH ROW
+WHEN (NEW.id IS NULL) -- Only trigger when id is not provided
+EXECUTE FUNCTION assign_lowest_coach_id();
+---------------------------------------------------------------
+
 CREATE TABLE gymnasts(
 	id INT PRIMARY KEY,
 	first_name TEXT NOT NULL,
