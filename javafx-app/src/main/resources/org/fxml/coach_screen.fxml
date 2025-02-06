@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<!--<?import javafx.scene.control.ComboBox?>-->
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+    fx:id="center"
+    stylesheets="org/styles/tab_styles.css"
+    fx:controller="org.controllers.CoachScreenController">
+
+    <HBox styleClass="top-hbox" fx:id="topHBox">
+        <TextField fx:id="nameField" onAction="#fillCoachTable" promptText="Enter Coach Name"/>
+    </HBox>
+    <HBox styleClass="middle-hbox" fx:id="middleHBox">
+        <TableView fx:id="coachTable">
+            <columns>
+                <TableColumn fx:id="firstNameColumn" text="First Name" prefWidth="150"/>
+                <TableColumn fx:id="lastNameColumn" text="Last Name" prefWidth="150"/>
+            </columns>
+        </TableView>
+    </HBox>
+    <HBox styleClass="bottom-hbox" fx:id="bottomHBox">
+        <Button text="Add a New Coach" onAction="#openAddCoachWindow"/>
+    </HBox>
+</VBox>

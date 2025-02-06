@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10"
+      alignment="TOP_CENTER"
+      prefWidth="800" prefHeight="600"
+      fx:controller="org.controllers.ProgressController">
+
+    <!-- Header Section -->
+    <Label fx:id="gymnastDetailsLabel"
+           styleClass="header-label"
+           alignment="CENTER"/>
+
+    <!-- Classes Section -->
+    <VBox spacing="10" alignment="TOP_LEFT" prefWidth="750">
+        <Label text="Classes:"/>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <ListView fx:id="classesList" prefHeight="150" prefWidth="400"/>
+            <VBox spacing="10">
+                <Button text="Remove Selected" onAction="#removeSelectedItems" fx:id="removeClassButton"/>
+                <HBox spacing="10" alignment="CENTER">
+                    <ComboBox fx:id="classesDropdown" promptText="Select Class" prefWidth="150"/>
+                    <Button text="Add Class" onAction="#addClassToList" fx:id="addClassButton"/>
+                </HBox>
+            </VBox>
+        </HBox>
+    </VBox>
+    <!--Skills Section-->
+    <!--filled in in controller-->
+    <GridPane fx:id="skillsGrid" hgap="10" vgap="10" alignment="CENTER_LEFT"/>
+    <HBox>
+        <Button fx:id="cancelButton" text="Cancel"/>
+        <Button fx:id="updateButton" onAction="#updateGymnastInfo" text="Update"/>
+    </HBox>
+</VBox>

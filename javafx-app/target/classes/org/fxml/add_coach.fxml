@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      prefWidth="400" prefHeight="300"
+      spacing="10"
+      alignment="CENTER"
+      styleClass="popup-container"
+      stylesheets="org/styles/add_object_styles.css"
+      fx:controller="org.controllers.AddCoachController">
+
+    <Label text="Add New Coach" styleClass="header-label"/>
+    
+    <VBox spacing="5" alignment="CENTER_LEFT" prefWidth="350">
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="First Name:" prefWidth="100"/>
+            <TextField fx:id="firstNameField" promptText="Enter First Name"/>
+        </HBox>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Last Name:" prefWidth="100"/>
+            <TextField fx:id="lastNameField" promptText="Enter Last Name"/>
+        </HBox>
+    </VBox>
+
+    <HBox spacing="20" alignment="CENTER" styleClass="button-container">
+        <Button text="Add" fx:id="addButton" onAction="#addCoach"/>
+        <Button text="Cancel" fx:id="cancelButton" onAction="#closeWindow"/>
+    </HBox>
+
+</VBox>

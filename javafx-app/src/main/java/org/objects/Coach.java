@@ -1,6 +1,6 @@
 package org.objects;
 
-import org.example.HelperFunctions;
+import org.helpers.*;
 
 import java.util.ArrayList;
 import java.sql.*;
@@ -21,9 +21,9 @@ public class Coach{
 
     public Coach (ResultSet r){
         try{
-            if (HelperFunctions.inResultSet(r, "id")) this.id.set(r.getInt("id"));
-            if (HelperFunctions.inResultSet(r, "first_name")) this.firstName.set(r.getString("first_name"));
-            if (HelperFunctions.inResultSet(r, "last_name")) this.lastName.set(r.getString("last_name"));
+            if (Helpers.inResultSet(r, "id")) this.id.set(r.getInt("id"));
+            if (Helpers.inResultSet(r, "first_name")) this.firstName.set(r.getString("first_name"));
+            if (Helpers.inResultSet(r, "last_name")) this.lastName.set(r.getString("last_name"));
         } catch (SQLException e){
             e.printStackTrace();
         }

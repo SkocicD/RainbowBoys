@@ -1,8 +1,11 @@
 DROP TABLE gymnast_classes;
 DROP TABLE class_coaches;
 DROP TABLE gymnasts;
+DROP FUNCTION assign_lowest_gymnast_id;
 DROP TABLE classes;
+DROP FUNCTION assign_lowest_class_id;
 DROP TABLE coaches;
+DROP FUNCTION assign_lowest_coach_id;
 DROP TYPE day_enum;
 
 CREATE TYPE day_enum AS ENUM ('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
